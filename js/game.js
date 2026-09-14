@@ -106,6 +106,7 @@ function showTurn() {
   document.getElementById("lineText").textContent = turn.text;
   document.getElementById("subText").textContent = turn.sub || "";
   document.getElementById("dialogue").classList.remove("hidden");
+  document.getElementById("dialogue").classList.remove("choice-mode");
   document.getElementById("choices").classList.add("hidden");
   animateDialogue();
 }
@@ -123,6 +124,7 @@ function showChoices() {
   setSpeaker("doyun");
   document.getElementById("lineText").textContent = "이 상황에서 어떤 판단을 내릴까?";
   document.getElementById("subText").textContent = "모든 선택에는 장점과 비용이 함께 있다.";
+  document.getElementById("dialogue").classList.add("choice-mode");
   animateDialogue();
 
   const box = document.getElementById("choices");
@@ -272,11 +274,11 @@ function loadSave() {
 }
 
 function exportSave() {
-  const payload = { game: "오늘도 관리사무소", version: "v1.0", savedAt: new Date().toISOString(), state };
+  const payload = { game: "오늘도 관리사무소", version: "v1.1", savedAt: new Date().toISOString(), state };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "오늘도_관리사무소_v1.0_save.json";
+  a.download = "오늘도_관리사무소_v1.1_save.json";
   document.body.appendChild(a);
   a.click();
   a.remove();
