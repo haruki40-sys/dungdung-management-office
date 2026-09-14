@@ -5,6 +5,24 @@ const EMOTION_POS = {
   sad: "100% 0%"
 };
 
+// Same visual height as the protagonist. Tall source sheets are reduced more strongly.
+const CHAR_SCALE = {
+  doyun: 1.00,
+  odong: 0.98,
+  choi: 0.98,
+  park: 0.61,
+  han: 0.61,
+  kim: 0.61,
+  lee: 0.61,
+  yoon: 0.98,
+  seoji: 0.98,
+  boy: 0.94,
+  girl: 0.61,
+  grandma: 0.61,
+  grandpa: 0.98,
+  security: 0.61
+};
+
 let state = {
   day: 1,
   idx: 0,
@@ -34,50 +52,54 @@ function updateHud() {
   document.getElementById("countPill").textContent = Math.min(state.idx + 1, EVENTS.length) + " / " + EVENTS.length;
 }
 
+function getNpcForEvent(ev) {
+  if (!ev?.turns?.length) return "park";
+  const firstNpc = ev.turns.find(t => t.char !== "doyun");
+  return firstNpc?.char || "park";
+}
+
+function getRightCharacter(ev, turn) {
+  if (turn?.char && turn.char !== "doyun") return turn.char;
+  return getNpcForEvent(ev);
+}
+
 function setSprite(el, charKey, emotion) {
-  const c = CHARS[charKey];
+  const c = CHARS[charKey] || CHARS.park;
   el.style.backgroundImage = `url('${c.sheet}')`;
   el.style.backgroundPosition = EMOTION_POS[emotion] || EMOTION_POS.neutral;
+  el.style.setProperty("--sprite-scale", String(CHAR_SCALE[charKey] || 0.85));
+  el.dataset.char = charKey;
 }
 
 function setTag(elId, charKey) {
-  const c = CHARS[charKey];
+  const c = CHARS[charKey] || CHARS.park;
   document.getElementById(elId).innerHTML = `<b>${c.name}</b><span>${c.role} · ${c.age}</span>`;
 }
 
-function renderCast(speakerKey, emotion) {
+function renderCast(speakerKey, emotion, rightKeyOverride) {
   const ev = EVENTS[state.idx];
   const turn = ev?.turns?.[state.turn];
-  let rightKey = turn?.char === "doyun" ? ev.turns.find(t => t.char !== "doyun")?.char || "kim" : turn?.char || "kim";
+  const rightKey = rightKeyOverride || getRightCharacter(ev, turn);
 
   const leftSlot = document.getElementById("leftSlot");
   const rightSlot = document.getElementById("rightSlot");
   const leftSprite = document.getElementById("leftSprite");
   const rightSprite = document.getElementById("rightSprite");
 
-  leftSlot.classList.add("swapping");
-  rightSlot.classList.add("swapping");
+  // Change sprite instantly. No sheet-panning/flip animation when a button is pressed.
+  setSprite(leftSprite, "doyun", speakerKey === "doyun" ? emotion : "neutral");
+  setSprite(rightSprite, rightKey, speakerKey !== "doyun" ? emotion : "neutral");
+  setTag("leftTag", "doyun");
+  setTag("rightTag", rightKey);
 
-  setTimeout(() => {
-    setSprite(leftSprite, "doyun", speakerKey === "doyun" ? emotion : "neutral");
-    setSprite(rightSprite, rightKey, speakerKey !== "doyun" ? emotion : "neutral");
-    setTag("leftTag", "doyun");
-    setTag("rightTag", rightKey);
-
-    leftSlot.classList.toggle("active", speakerKey === "doyun");
-    leftSlot.classList.toggle("inactive", speakerKey !== "doyun");
-    rightSlot.classList.toggle("active", speakerKey !== "doyun");
-    rightSlot.classList.toggle("inactive", speakerKey === "doyun");
-
-    requestAnimationFrame(() => {
-      leftSlot.classList.remove("swapping");
-      rightSlot.classList.remove("swapping");
-    });
-  }, 120);
+  leftSlot.classList.toggle("active", speakerKey === "doyun");
+  leftSlot.classList.toggle("inactive", speakerKey !== "doyun");
+  rightSlot.classList.toggle("active", speakerKey !== "doyun");
+  rightSlot.classList.toggle("inactive", speakerKey === "doyun");
 }
 
 function setSpeaker(charKey) {
-  const c = CHARS[charKey];
+  const c = CHARS[charKey] || CHARS.park;
   document.getElementById("speakerName").textContent = c.name;
   document.getElementById("speakerRole").textContent = c.role + " · " + c.age;
 }
@@ -101,7 +123,8 @@ function showTurn() {
     showChoices();
     return;
   }
-  renderCast(turn.char, turn.emotion || "neutral");
+
+  renderCast(turn.char, turn.emotion || "neutral", getRightCharacter(ev, turn));
   setSpeaker(turn.char);
   document.getElementById("lineText").textContent = turn.text;
   document.getElementById("subText").textContent = turn.sub || "";
@@ -120,10 +143,12 @@ function nextTurn() {
 
 function showChoices() {
   const ev = EVENTS[state.idx];
-  renderCast("doyun", "neutral");
+  const rightKey = getNpcForEvent(ev);
+
+  renderCast("doyun", "neutral", rightKey);
   setSpeaker("doyun");
-  document.getElementById("lineText").textContent = "이 상황에서 어떤 판단을 내릴까?";
-  document.getElementById("subText").textContent = "모든 선택에는 장점과 비용이 함께 있다.";
+  document.getElementById("lineText").textContent = "이 상황에서는 어떤 판단을 내릴까?";
+  document.getElementById("subText").textContent = `${CHARS[rightKey].name}의 상황을 보고 판단해보자.`;
   document.getElementById("dialogue").classList.add("choice-mode");
   animateDialogue();
 
@@ -274,11 +299,11 @@ function loadSave() {
 }
 
 function exportSave() {
-  const payload = { game: "오늘도 관리사무소", version: "v1.1", savedAt: new Date().toISOString(), state };
+  const payload = { game: "오늘도 관리사무소", version: "v1.2.1", savedAt: new Date().toISOString(), state };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "오늘도_관리사무소_v1.1_save.json";
+  a.download = "오늘도_관리사무소_v1.2.1_save.json";
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -319,6 +344,13 @@ function restartGame() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function preloadCharacterSheets() {
+  [...new Set(Object.values(CHARS).map(c => c.sheet))].forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
 document.getElementById("startBtn").onclick = () => {
   document.getElementById("startOverlay").classList.add("hidden");
   showTurn();
@@ -336,13 +368,16 @@ document.getElementById("fileInput").addEventListener("change", (e) => {
   e.target.value = "";
 });
 
+preloadCharacterSheets();
 updateHud();
 renderLog();
 setSprite(document.getElementById("leftSprite"), "doyun", "neutral");
-setSprite(document.getElementById("rightSprite"), "kim", "neutral");
+setSprite(document.getElementById("rightSprite"), getNpcForEvent(EVENTS[0]), "neutral");
+setTag("leftTag", "doyun");
+setTag("rightTag", getNpcForEvent(EVENTS[0]));
 
-if (loadSave() && state.idx < EVENTS.length) {
+if (loadSave()) {
   document.getElementById("startOverlay").classList.add("hidden");
   renderLog();
-  showTurn();
+  state.idx >= EVENTS.length ? finishGame() : showTurn();
 }
