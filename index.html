@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- GitHub Pages deployment build. Relative paths only. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>오늘도 관리사무소 v1.0</title>
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <h1>오늘도 관리사무소 <span style="font-size:12px;opacity:.65">v1.0</span></h1>
+      <p>배경 없는 전신 스프라이트를 실제 게임에 적용했습니다. NPC가 훨씬 다양해졌고, 말할 때 감정에 따라 표정과 포즈가 바뀝니다.</p>
+    </div>
+    <div class="actions">
+      <div class="pill" id="dayPill">DAY 1 · 누수 민원</div>
+      <button class="btn" id="saveBtn">💾 빠른 저장</button>
+      <button class="btn" id="exportBtn">⬇ 세이브 파일</button>
+      <button class="btn" id="importBtn">⬆ 불러오기</button>
+      <input type="file" id="fileInput" accept=".json,application/json" class="hidden">
+    </div>
+  </div>
+
+  <div class="hud">
+    <div class="hud-card"><small>❤️ 주민 만족도</small><strong id="satVal">68</strong><div class="bar"><span id="satBar" style="width:68%"></span></div></div>
+    <div class="hud-card"><small>🔧 시설 상태</small><strong id="facVal">74</strong><div class="bar"><span id="facBar" style="width:74%"></span></div></div>
+    <div class="hud-card"><small>🤝 직원 신뢰</small><strong id="trustVal">60</strong><div class="bar"><span id="trustBar" style="width:60%"></span></div></div>
+    <div class="hud-card"><small>💰 가용 예산</small><strong id="moneyVal">12,400,000원</strong></div>
+  </div>
+
+  <section class="scene">
+    <div class="scene-head">
+      <div class="loc">📍 하늘빛아파트 정문 앞</div>
+      <div class="count" id="countPill">1 / 14</div>
+    </div>
+
+    <div class="cast">
+      <div class="slot left active" id="leftSlot">
+        <div class="sprite-window" id="leftSprite"></div>
+      </div>
+      <div class="slot right inactive" id="rightSlot">
+        <div class="sprite-window" id="rightSprite"></div>
+      </div>
+      <div class="tag left" id="leftTag"><b>도윤</b><span>관리사무소 주임 · 20대 후반</span></div>
+      <div class="tag right" id="rightTag"><b>김미영</b><span>주민 · 40대</span></div>
+    </div>
+
+    <div class="transition" id="transition">
+      <div class="box">
+        <strong id="transitionTitle">다음 날</strong>
+        <span id="transitionSub">새로운 민원이 기다리고 있습니다.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="dialogue-wrap">
+    <div class="dialogue" id="dialogue">
+      <div class="speaker">
+        <div class="speaker-name" id="speakerName">도윤</div>
+        <div class="speaker-role" id="speakerRole">관리사무소 주임 · 20대 후반</div>
+      </div>
+      <div class="line" id="lineText">오늘도 관리사무소 앞은 조용하다.</div>
+      <div class="sub" id="subText">버튼을 눌러 이야기를 시작하세요.</div>
+      <div class="d-actions">
+        <button class="soft" id="restartBtn">↺ 새 게임</button>
+        <button class="primary" id="nextBtn">다음 ▶</button>
+      </div>
+    </div>
+    <div class="choices hidden" id="choices"></div>
+  </div>
+
+  <div class="bottom">
+    <div class="card">
+      <h3>이번 적용판 핵심</h3>
+      <p>
+      • 배경 없는 전신 캐릭터를 실제 게임에 적용<br>
+      • 한 캐릭터 안에서 <b>기본 / 화남 / 신남 / 슬픔</b> 4가지 감정 연출<br>
+      • 남녀, 아이, 학생, 할머니, 할아버지, 경비반장 등 등장인물 대폭 추가<br>
+      • 대화가 진행될 때 말하는 사람만 또렷하게 강조<br>
+      • 기존 저장 기능 유지
+      </p>
+    </div>
+    <div class="card">
+      <h3>진행 기록</h3>
+      <div class="log-list" id="logList"><div class="log-item">아직 기록이 없습니다.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="startOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>v1.0 캐릭터 적용판</h2>
+      <p>감정 스프라이트 적용 · NPC 확대 · 저장 기능 유지</p>
+    </div>
+    <div class="modal-body">
+      <p>이번 버전은 방금 만든 전신 캐릭터 스프라이트를 게임에 실제 적용한 버전입니다. 주인공은 왼쪽에, 주민과 직원 NPC는 오른쪽에 서며, 대사에 맞춰 표정과 포즈가 달라집니다.</p>
+      <div class="rows">
+        <div class="row"><span>사건 수</span><b>14개</b></div>
+        <div class="row"><span>캐릭터 수</span><b>14명</b></div>
+        <div class="row"><span>표정/포즈</span><b>캐릭터당 4종</b></div>
+        <div class="row"><span>저장 방식</span><b>빠른 저장 + JSON 파일</b></div>
+      </div>
+      <button id="startBtn">출근 시작</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="resultOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>최종 운영 평가</h2>
+      <p>입주자대표회의 종합 코멘트</p>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:28px;font-weight:950;letter-spacing:-.04em" id="resultTitle">욕은 먹었지만 굴러갔다</div>
+      <div style="font-size:58px;font-weight:950;margin:8px 0 12px" id="resultRank">B+</div>
+      <p id="resultText"></p>
+      <div class="rows" id="resultRows"></div>
+      <button onclick="restartGame()">다시 출근하기</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/characters.js"></script>
+<script src="js/events.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
