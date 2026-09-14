@@ -53,10 +53,10 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
 .scene-head{position:absolute;left:14px;right:14px;top:14px;z-index:10;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .loc,.count{background:rgba(17,20,26,.82);border:1px solid var(--line);border-radius:999px;padding:9px 12px;font-size:12px;font-weight:850;box-shadow:0 8px 20px rgba(0,0,0,.16)}
 
-.cast{position:absolute;left:0;right:0;top:66px;bottom:0;z-index:4}
+.cast{position:absolute;left:0;right:0;top:72px;bottom:0;z-index:4}
 .slot {
-  position:absolute;bottom:0;width:min(38vw,470px);height:min(82%,610px);
-  display:flex;justify-content:center;align-items:flex-end;
+  position:absolute;bottom:0;width:min(32vw,410px);height:min(70%,500px);
+  display:flex;justify-content:center;align-items:flex-end;overflow:hidden;
   transition:opacity .3s var(--ease), transform .35s var(--ease), filter .25s ease;
 }
 .slot.left{left:1.5%}
@@ -67,14 +67,13 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
 .sprite-window {
   width:100%;height:100%;
   background-repeat:no-repeat;
-  background-size:400% 100%;
-  background-position:0% 0%;
-  background-repeat:no-repeat;
-  background-origin:content-box;
+  background-size:400% auto;
+  background-position-y:top;
+  background-origin:border-box;
   filter:drop-shadow(0 22px 42px rgba(0,0,0,.35));
   transition:background-position .28s var(--ease), transform .35s var(--ease), opacity .22s ease;
 }
-.slot.right .sprite-window{transform:scaleX(-1)} /* gives the feeling that NPCs face inward */
+.slot.right .sprite-window{transform:scaleX(-1)}
 .slot.swapping .sprite-window{opacity:.1;transform:translateY(18px) scale(.97)}
 .slot.right.swapping .sprite-window{transform:scaleX(-1) translateY(18px) scale(.97)}
 
@@ -157,18 +156,19 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
 @keyframes toast {0%{opacity:0;transform:translate(-50%,8px)}12%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,8px)}}
 
 .hidden{display:none !important}
+.dialogue.choice-mode .d-actions{display:none}
 
 @media (max-width:980px){
   .hud{grid-template-columns:repeat(2,minmax(0,1fr))}
   .scene{min-height:650px}
   .bottom{grid-template-columns:1fr}
-  .slot{width:min(44vw,360px)}
+  .slot{width:min(38vw,330px);height:min(66%,440px)}
 }
 @media (max-width:700px){
   .app{padding:8px 8px 28px}
   .brand h1{font-size:23px}
   .scene{min-height:600px}
-  .slot{width:47vw;height:72%}
+  .slot{width:43vw;height:60%}
   .tag{max-width:44vw;min-width:0}
   .line{font-size:17px;min-height:88px}
   .choice{grid-template-columns:1fr}
@@ -177,7 +177,7 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
 @media (max-width:480px){
   .hud{grid-template-columns:1fr 1fr}
   .scene{min-height:560px}
-  .slot{width:49vw;height:66%}
+  .slot{width:45vw;height:56%}
   .tag span{display:none}
   .speaker-name{font-size:19px}
   .line{font-size:16px}
