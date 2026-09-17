@@ -55,7 +55,7 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
 
 .cast{position:absolute;left:0;right:0;top:66px;bottom:0;z-index:4}
 .slot {
-  position:absolute;bottom:0;width:min(32vw,410px);height:min(70%,500px);
+  position:absolute;bottom:-24px;width:min(32vw,410px);height:min(70%,500px);
   display:flex;justify-content:center;align-items:flex-end;overflow:hidden;
   transition:opacity .20s var(--ease), transform .20s var(--ease), filter .18s ease;
 }
@@ -162,13 +162,13 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
   .hud{grid-template-columns:repeat(2,minmax(0,1fr))}
   .scene{min-height:650px}
   .bottom{grid-template-columns:1fr}
-  .slot{width:min(38vw,330px);height:min(66%,440px)}
+  .slot{bottom:-18px;width:min(38vw,330px);height:min(66%,440px)}
 }
 @media (max-width:700px){
   .app{padding:8px 8px 28px}
   .brand h1{font-size:23px}
   .scene{min-height:600px}
-  .slot{width:43vw;height:60%}
+  .slot{bottom:-12px;width:43vw;height:60%}
   .tag{max-width:44vw;min-width:0}
   .line{font-size:17px;min-height:88px}
   .choice{grid-template-columns:1fr}
@@ -177,7 +177,7 @@ button:focus-visible{outline:3px solid rgba(239,210,122,.7);outline-offset:2px}
 @media (max-width:480px){
   .hud{grid-template-columns:1fr 1fr}
   .scene{min-height:560px}
-  .slot{width:45vw;height:56%}
+  .slot{bottom:-8px;width:45vw;height:56%}
   .tag span{display:none}
   .speaker-name{font-size:19px}
   .line{font-size:16px}
