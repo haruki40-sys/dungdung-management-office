@@ -1,15 +1,13 @@
 {
-  "game": "오늘도 관리사무소",
-  "version": "v1.0",
-  "savedAt": "template",
-  "state": {
-    "day": 1,
-    "idx": 0,
-    "turn": 0,
-    "sat": 68,
-    "fac": 74,
-    "trust": 60,
-    "money": 12400000,
-    "log": []
-  }
+  "schema": 2,
+  "version": "v1.3.0",
+  "dayIndex": 0,
+  "sceneIndex": 0,
+  "postIndex": 0,
+  "epiIndex": 0,
+  "view": "cover",
+  "selected": 0,
+  "answers": {},
+  "assignments": {},
+  "log": []
 }

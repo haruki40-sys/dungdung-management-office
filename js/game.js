@@ -1,383 +1,195 @@
-const EMOTION_POS = {
-  neutral: "0% 0%",
-  angry: "33.333% 0%",
-  happy: "66.666% 0%",
-  sad: "100% 0%"
-};
+(()=>{
+const s=(speaker,role,who,npc,text,extra={})=>({speaker,role,who,npc,text,...extra});
+const characterRoot='assets/1막_그래픽_v0.2/characters/';
+const characterFiles={'도윤':'doyun_sheet.png','강태식':'security_sheet.png','한명숙':'grandma_sheet.png','이준호':'male2_sheet.png','정서연':'schoolgirl_sheet.png','오지혜':'female2_sheet.png','임성호':'male1_sheet.png','박선우':'chairman_sheet.png','윤정희':'female1_sheet.png'};
+const aliases={'태식':'강태식','명숙':'한명숙','준호':'이준호','서연':'정서연','지혜':'오지혜','성호':'임성호','선우':'박선우','정희':'윤정희'};
+const emotionPosition={neutral:'0% bottom',angry:'33.333% bottom',happy:'66.667% bottom',sad:'100% bottom'},emotionIndex={neutral:0,angry:1,happy:2,sad:3};
+const characterFrame={'도윤':[.75,[69.43,57.46,44.38,33.24]],'박선우':[.75,[70.53,55.16,47.24,35.36]],'강태식':[.4442,[50.84,53.59,53.71,47.13]],'한명숙':[.4442,[58.25,59.69,48.92,54.67]],'이준호':[.4442,[58.97,54.67,48.09,54.31]],'정서연':[.4442,[58.97,51.91,48.92,52.15]],'오지혜':[.4442,[62.2,52.87,53.35,40.91]],'임성호':[.4442,[58.13,50,50,47.49]],'윤정희':[.4442,[61.84,55.26,54.55,48.68]]};
+function paintFigure(element,name,emotion='neutral'){const canonical=aliases[name]||name,file=characterFiles[canonical],frame=characterFrame[canonical]||[.4442,[58,58,58,58]],index=emotionIndex[emotion]??0;element.style.backgroundImage=file?`url("${characterRoot}${file}")`:'';element.style.backgroundPosition=emotionPosition[emotion]||emotionPosition.neutral;element.style.setProperty('--frame-ratio',frame[0]);element.style.setProperty('--focus',`-${frame[1][index]}%`);element.setAttribute('aria-label',canonical)}
+function inferEmotion(scene){const text=scene.text||'';if(/고마워|괜찮아요|새잎|잘 부탁|같이 가세요/.test(text))return'happy';if(/죄송|모르겠|힘들|위험|넘어질|배고픈|걱정|젖/.test(text))return'sad';if(/금지|책임|바로 빼|통하지 않|지금처럼 둘 수/.test(text))return'angry';return'neutral'}
+const reactionCopy={'도윤':'상황을 조용히 살핀다','강태식':'현장을 살핀다','한명숙':'상대의 말을 듣는다','이준호':'통로를 바라본다','정서연':'조용히 듣는다','오지혜':'생활 시간을 떠올린다','임성호':'설명을 기다린다','박선우':'기준을 따져본다','윤정희':'걱정스레 지켜본다'};
+const days=[
+{day:'1일차',type:'핵심 사건',title:'복도에 놓인 유모차',place:'corridor',scenes:[
+s('이야기','아파트 소개','none','강태식','지어진 지 스물여덟 해가 된 라이프아파트. 여덟 동, 사백여 세대가 저마다의 사정을 품고 살아가는 곳이다.',{chapter:'프롤로그',place:'exterior'}),
+s('이야기','첫 출근','none','강태식','첫 출근 날. 도윤은 오래된 유리문 앞에서 잠시 숨을 골랐다.',{chapter:'프롤로그',place:'exterior'}),
+s('도윤','신임 관리소장','doyun','강태식','“오늘부터 여기가 내 직장이구나.”',{chapter:'프롤로그',place:'exterior'}),
+s('이야기','낯선 자리','none','강태식','낡은 책상 위에는 단지 배치도와 주민 연락망, 손때 묻은 메모가 놓여 있었다.',{chapter:'프롤로그',place:'office'}),
+s('강태식','경비반장','npc','강태식','“일찍 오셨네요. 강태식입니다. 경비반장을 맡고 있습니다.”',{chapter:'프롤로그',place:'office'}),
+s('도윤','신임 관리소장','doyun','강태식','“도윤입니다. 앞으로 잘 부탁드립니다.”',{chapter:'프롤로그',place:'office'}),
+s('강태식','경비반장','npc','강태식','“기계실, 옥상, 공용실, 지하 창고 열쇠입니다. 비슷하게 생겼으니 표찰을 꼭 확인하세요.”',{chapter:'프롤로그',place:'office'}),
+s('이야기','첫 번째 인계','none','강태식','손바닥에 올려진 열쇠 꾸러미가 생각보다 묵직했다.',{chapter:'프롤로그',place:'office'}),
+s('강태식','경비반장','npc','강태식','“여기서는 고장 난 시설만 고치는 게 아닙니다. 작은 불편이 누군가에게는 매일 견뎌야 하는 일이 되기도 하죠.”',{chapter:'프롤로그',place:'office'}),
+s('강태식','경비반장','npc','강태식','“시설은 고치면 되지만, 사람 마음은 순서가 있습니다. 먼저 사정을 들어보시죠.”',{chapter:'프롤로그',place:'office'}),
+s('도윤','신임 관리소장','doyun','강태식','“먼저 듣고, 필요한 일을 제대로 찾겠습니다.”',{chapter:'프롤로그',place:'office'}),
+s('이야기','첫 번째 방문자','none','한명숙','똑똑. 정리되지 않은 책상 앞에 첫 번째 노크 소리가 울렸다.',{chapter:'프롤로그',place:'office'}),
+s('한명숙','5층 주민','npc','한명숙','“새로 오신 소장님 맞죠? 잠깐 같이 가보셔야겠어요.”',{chapter:'프롤로그',place:'office'}),
+s('이야기','사건 도입','none','한명숙','도윤은 명숙과 함께 엘리베이터에 올랐다. 숫자가 바뀌는 동안 명숙은 몇 번이나 말을 고르는 듯했다.'),
+s('한명숙','5층 주민','npc','한명숙','“503호 유모차가 늘 복도에 나와 있어요. 이제는 거기 있는 게 당연해진 것처럼요.”'),
+s('도윤','신임 관리소장','doyun','한명숙','“지나가실 때 많이 불편하셨습니까?”'),
+s('한명숙','5층 주민','npc','한명숙','“보행기가 걸려서 몸을 틀어야 해요. 불이라도 나면 더 위험하고요.”'),
+s('이야기','현장 확인','none','한명숙','복도 한편에 쌍둥이용 유모차가 펼쳐져 있었다. 명숙의 보행기 바퀴가 손잡이 끝에 가볍게 부딪혔다.'),
+s('도윤','신임 관리소장','doyun','한명숙','“통로는 확보해야 합니다. 다만 계속 밖에 둔 이유부터 확인해보겠습니다.”'),
+s('이야기','두 번째 사정','none','이준호','초인종을 누르자, 잠시 뒤 한쪽 팔에 아이를 안은 준호가 문을 열었다.'),
+s('이준호','503호 주민','npc','이준호','“아, 유모차 때문에 오셨죠? 죄송합니다. 오늘 안으로 옮길게요.”'),
+s('도윤','신임 관리소장','doyun','이준호','“매일 밖에 둘 수밖에 없는 사정이 있습니까?”'),
+s('이준호','503호 주민','npc','이준호','“쌍둥이용이라 접어도 현관 신발장을 막습니다. 아이 둘을 먼저 안고 다시 옮기기도 쉽지 않고요.”'),
+s('이준호','503호 주민','npc','이준호','“아내가 야간 근무라 혼자 감당할 때가 많습니다.”'),
+s('한명숙','5층 주민','npc','한명숙','“아이 둘이면 힘든 건 알아요. 그래도 저는 여기서 넘어질 뻔했어요.”',{others:['준호']}),
+s('이야기','달라진 시선','none','이준호','준호는 그제야 보행기와 유모차 사이의 좁은 틈을 바라보았다.',{others:['명숙']}),
+s('이준호','503호 주민','npc','이준호','“이렇게 좁은 줄은 몰랐습니다. 저도 아이들을 데리고 이 길을 써야 해서… 어떻게 해야 할지 모르겠네요.”'),
+s('이야기','같은 복도, 다른 사정','none','이준호','한 사람에게는 안전하게 걸어야 하는 길이었고, 다른 사람에게는 아이 둘을 데리고 나가는 유일한 길이었다.'),
+s('도윤','신임 관리소장','doyun','한명숙','“지금처럼 둘 수는 없습니다. 오늘 안에 가능한 방법을 찾아보겠습니다.”',{others:['준호']}),
+s('이야기','해결책 찾기','none','강태식','관리사무소로 돌아온 도윤은 5층 평면도와 비상 대피 동선을 펼쳤다.',{place:'office'}),
+s('강태식','경비반장','npc','강태식','“규정대로라면 치우게 하면 됩니다. 다만 보관할 데가 없으면 며칠 지나 다시 나올 겁니다.”',{place:'office'}),
+s('도윤','신임 관리소장','doyun','강태식','“엘리베이터 옆 빈 공간은 사용할 수 없을까요?”',{place:'office'}),
+s('강태식','경비반장','npc','강태식','“소화전과 방화문만 막지 않으면 가능은 합니다. 다만 누구나 이해할 규칙이 필요하겠죠.”',{place:'office'}),
+s('이야기','첫 번째 결정','none','강태식','안전, 당장의 불편, 앞으로 함께 지킬 기준. 어느 선택도 모든 문제를 한 번에 해결해주지는 않는다.',{place:'office'})],choices:[
+{label:'복도 적치 금지 기준을 적용한다.',sub:'통행 안전과 명확한 원칙을 우선한다.',style:'principle',result:'복도는 바로 비워졌다. 안전은 확보됐지만 준호의 보관 부담은 다음 과제로 남았다.',thought:'복도는 넓어졌지만, 준호의 하루는 조금 더 무거워졌다. 기준 밖에 남은 불편도 살펴봐야겠다.',post:[s('도윤','관리소장','doyun','한명숙','“복도는 비워야 합니다. 오늘 저녁까지 옮길 수 있도록 보관 방법은 따로 안내하겠습니다.”',{others:['준호']}),s('이야기','그날 오후','none','이준호','준호는 유모차를 접어 집 안으로 옮겼다. 막혀 있던 복도가 넓어졌다.'),s('한명숙','5층 주민','npc','한명숙','“이제 보행기를 돌리지 않고도 지나가겠네요.”'),s('이준호','503호 주민','npc','이준호','“규정은 알겠습니다. 아이 둘과 유모차를 함께 옮길 방법은 더 찾아봐야겠네요.”'),s('이야기','퇴근 전','none','이준호','도윤은 안전 기준과, 기준 밖에 남겨진 불편을 함께 기록했다.')]},
+{label:'엘리베이터 옆에 임시 보관선을 만든다.',sub:'오늘 작동하는 절충안을 마련한다.',style:'action',result:'유모차와 보행기가 함께 놓일 자리가 생겼다. 임시선이 방치가 되지 않도록 점검이 필요하다.',thought:'완벽하지 않아도 오늘 두 사람이 함께 지나갈 자리는 만들었다. 이제 그 선을 지키는 일이 남았다.',post:[s('이야기','오후 세 시','none','강태식','도윤과 태식은 소화전과 방화문을 피해 바닥에 임시 보관선을 붙였다.'),s('도윤','관리소장','doyun','강태식','“유모차와 보행 보조기만 둘 수 있습니다. 선 밖 물건은 바로 치우겠습니다.”'),s('한명숙','5층 주민','npc','한명숙','“통로만 막히지 않는다면 저도 괜찮아요.”',{others:['준호']}),s('이준호','503호 주민','npc','이준호','“다른 물건이 쌓이지 않도록 저도 신경 쓰겠습니다.”',{others:['명숙']}),s('이야기','퇴근 전','none','이준호','두 사람 모두 지나갈 자리가 생겼다. 도윤은 임시선 점검표를 남겼다.')]},
+{label:'공용 보관 방안을 함께 논의한다.',sub:'서로의 사정을 듣고 기준을 만든다.',style:'relation',result:'복도는 비우고 주민 논의를 시작했다. 답은 늦어졌지만 두 사람은 처음으로 상대의 사정을 들었다.',thought:'답을 조금 늦게 내리는 대신 함께 지킬 약속을 만들기로 했다. 그동안의 불편도 잊지 말아야겠다.',post:[s('도윤','관리소장','doyun','한명숙','“논의가 끝날 때까지 유모차는 세대 안에 두고, 옮기기 어려운 날은 경비실에 도움을 요청해주세요.”',{others:['준호']}),s('한명숙','5층 주민','npc','한명숙','“아이 둘이면 쉽지 않겠네요. 그래도 통로는 꼭 남겨주세요.”',{others:['준호']}),s('이준호','503호 주민','npc','이준호','“그렇게 하겠습니다. 공용 자리가 정해지면 관리 규칙도 따르겠습니다.”',{others:['명숙']}),s('이야기','함께 보는 복도','none','이준호','세 사람은 통로 폭과 비어 있는 자리를 함께 살폈다.',{others:['명숙']}),s('이야기','퇴근 전','none','이준호','도윤은 주민 의견을 모을 날짜를 잡았다. 결론 전까지 복도 안전 기준은 그대로 유지된다.')]}]},
+{day:'2일차',type:'일상 사건',title:'이름이 번진 상자',place:'lobby',scenes:[
+s('이야기','아침 우편함','none','강태식','관리사무소 문을 열기 전, 도윤은 우편함 주변을 한 바퀴 돌았다.'),
+s('이야기','젖은 상자','none','강태식','의자 위에 비에 젖은 택배 상자가 놓여 있었다. 송장에는 라이프아파트와 이름 한 글자만 남아 있었다.'),
+s('강태식','경비반장','npc','강태식','“어젯밤 순찰 때부터 있었습니다. 누가 잘못 가져갔다가 둔 것 같기도 하고요.”'),
+s('도윤','관리소장','doyun','강태식','“상자를 열지 않고 주인을 찾아야겠네요. 배송 번호는 일부 보입니다.”'),
+s('이야기','지나가던 주민','none','한명숙','장바구니를 든 명숙이 상자를 힐끗 보더니 걸음을 멈췄다.'),
+s('한명숙','5층 주민','npc','한명숙','“동만 알면 방송하면 되지 않아요? 금방 찾을 텐데.”'),
+s('도윤','관리소장','doyun','한명숙','“내용물이나 이름이 드러나면 곤란할 수 있어서요. 필요한 정보만 써보겠습니다.”'),
+s('이야기','작은 분실물','none','강태식','상자는 말이 없었지만, 누구의 정보까지 꺼내도 되는지는 도윤이 정해야 했다.')],choices:[
+{label:'분실물로 등록하고 택배사에 확인한다.',sub:'정확하고 안전하지만 시간이 걸린다.',style:'principle',result:'배송 기록으로 주인을 찾았다. 절차는 느렸지만 상자는 안전하게 돌아갔다.',thought:'주소가 번져도 기록은 누군가의 집을 기억하고 있었다.',post:[s('도윤','관리소장','doyun','강태식','“접수 시간과 상자 상태부터 적어두죠. 배송 번호로 택배사에 확인하겠습니다.”'),s('이야기','두 시간 뒤','none','강태식','택배사의 회신으로 동과 호수가 확인됐다.'),s('강태식','경비반장','npc','강태식','“조금 늦어도 틀리지 않는 방법이 필요할 때가 있군요.”'),s('이야기','주인에게','none','강태식','도윤은 신분을 확인한 뒤 상자를 건넸다. 내용물은 끝까지 묻지 않았다.')]},
+{label:'정보를 가린 안내문을 게시한다.',sub:'빠르지만 문의가 여러 번 올 수 있다.',style:'action',result:'게시판을 본 주민들의 제보가 이어졌다. 몇 번의 확인 끝에 주인이 나타났다.',thought:'작은 안내문 하나가 단지의 눈을 잠시 같은 곳으로 모았다.',post:[s('이야기','안내문 만들기','none','강태식','도윤은 이름과 송장 번호를 가리고 상자의 색과 발견 장소만 적었다.'),s('강태식','경비반장','npc','강태식','“벌써 세 분이 자기 물건인지 물으셨습니다.”'),s('도윤','관리소장','doyun','강태식','“받는 분의 배송 화면까지 확인하고 건네죠.”'),s('이야기','점심 무렵','none','강태식','네 번째로 찾아온 주민의 배송 화면과 번호가 일치했다.')]},
+{label:'순찰하며 주민들에게 직접 묻는다.',sub:'시간이 들지만 얼굴과 이름을 익힌다.',style:'relation',result:'도윤은 여러 주민과 처음 인사를 나눴고, 마지막 동에서 상자의 주인을 만났다.',thought:'상자 하나를 돌려주러 갔다가 여러 사람의 얼굴을 기억하게 됐다.',post:[s('이야기','동마다 한 번씩','none','강태식','도윤은 상자의 특징만 말하며 경비실과 각 동 출입구를 돌았다.'),s('박선우','입주자대표','npc','박선우','“개인정보를 가린 건 잘하셨네요. 주민 단체방에는 특징만 올려보겠습니다.”'),s('도윤','관리소장','doyun','박선우','“감사합니다. 받는 분은 배송 화면을 확인하겠습니다.”'),s('이야기','마지막 동','none','박선우','상자는 주인을 찾았다. 도윤의 수첩에는 처음 들은 주민 이름 몇 개도 함께 남았다.')]}]},
+{day:'3일차',type:'핵심 사건',title:'오후 두 시의 연습 소리',place:'corridor',scenes:[
+s('이야기','오후 순찰','none','오지혜','복도 끝에서 피아노 소리가 들렸다. 빠른 음계가 멈췄다가 다시 처음부터 이어졌다.'),
+s('이야기','계단참','none','오지혜','계단참에는 병원 야간 근무를 마친 지혜가 식지 않은 커피를 든 채 서 있었다.'),
+s('도윤','관리소장','doyun','오지혜','“집에 들어가지 못하고 계신 겁니까?”'),
+s('이야기','잠시 멈춘 말','none','오지혜','지혜는 식어가는 커피를 내려다보다가, 다시 시작된 피아노 소리에 잠시 귀를 기울였다.'),
+s('오지혜','야간 근무 주민','npc','오지혜','“낮인 건 알아요. 그래도 이 시간에 자지 못하면 밤 근무를 버티기 어렵습니다.”'),
+s('오지혜','야간 근무 주민','npc','오지혜','“항의하러 올라가면 학생이 연습을 못 하게 될까 봐… 그것도 마음에 걸리고요.”'),
+s('이야기','문 너머','none','정서연','도윤이 초인종을 누르자 메트로놈 소리가 멎고 서연이 문을 열었다.'),
+s('정서연','입시 준비생','npc','정서연','“죄송해요. 낮 두 시부터 네 시까지만 치고 있어요. 그 시간도 안 되는 건가요?”'),
+s('도윤','관리소장','doyun','정서연','“같은 시간에 잠들어야 하는 주민이 있습니다. 연습을 그만두라는 말부터 하러 온 건 아닙니다.”'),
+s('정서연','입시 준비생','npc','정서연','“실기 시험이 얼마 안 남았어요. 따로 연습실을 빌릴 형편도 아니고요.”'),
+s('오지혜','야간 근무 주민','npc','오지혜','“시험 준비가 중요한 건 알아요. 저도 매일 조용히 해달라는 말은 하고 싶지 않아요.”',{others:['서연']}),
+s('이야기','다른 생활 시간','none','정서연','한 사람의 오후는 잠들어야 하는 밤이었고, 다른 사람에게는 꿈을 준비할 유일한 시간이었다.',{others:['지혜']}),
+s('강태식','경비반장','npc','강태식','“지하 공용실이 비어 있긴 합니다. 오래 닫아둬서 바로 쓰기는 어렵고 벽에 습기 자국도 있습니다.”',{place:'office'}),
+s('도윤','관리소장','doyun','강태식','“서연의 연습 시간과 지혜 씨의 수면 시간을 함께 지킬 방법을 찾아야겠네요. 비어 있는 공용실도 확인해보겠습니다.”',{place:'office'})],choices:[
+{label:'낮 시간 소음 기준을 안내한다.',sub:'금지보다 지켜야 할 범위를 분명히 한다.',style:'principle',result:'연습은 계속됐지만 방진 패드와 창문 관리 기준이 생겼다. 지혜의 수면 문제는 일부 남았다.',thought:'규정 안의 소리도 누군가에게는 버티기 힘든 하루가 될 수 있다.',post:[s('도윤','관리소장','doyun','정서연','“낮 연습은 가능하지만 창문을 닫고 방진 패드를 사용해주세요. 연속 연습 시간도 줄이겠습니다.”'),s('정서연','입시 준비생','npc','정서연','“지킬게요. 쉬는 시간을 더 자주 넣겠습니다.”'),s('오지혜','야간 근무 주민','npc','오지혜','“완전히 조용하진 않아도 기준이 생기면 저도 준비할 수 있겠어요.”',{others:['서연']}),s('이야기','그날 오후','none','정서연','피아노 소리는 조금 낮아졌고, 복도에는 연습 시간과 소음 방지 수칙이 붙었다.')]},
+{label:'두 사람의 생활 시간을 조정한다.',sub:'근무표와 연습 시간을 맞춘다.',style:'relation',result:'두 사람은 일주일 단위 연습표를 만들었다. 번거롭지만 서로의 시간을 처음 알게 됐다.',thought:'같은 시계를 봐도 서로 다른 하루를 사는 사람들이 있다.',post:[s('도윤','관리소장','doyun','오지혜','“지혜 씨 근무일에는 연습을 한 시간 늦추고, 쉬는 날은 원래 시간으로 두면 어떨까요?”',{others:['서연']}),s('정서연','입시 준비생','npc','정서연','“근무표를 알려주시면 맞춰볼게요. 대신 시험 전 주는 다시 의논하고 싶어요.”',{others:['지혜']}),s('오지혜','야간 근무 주민','npc','오지혜','“그 주에는 제가 귀마개를 준비할게요. 먼저 말해줘서 고마워요.”',{others:['서연']}),s('이야기','새로 생긴 표','none','정서연','냉장고와 피아노 옆에 같은 연습표가 한 장씩 붙었다.')]},
+{label:'비어 있는 공용실을 시험 개방한다.',sub:'공간을 활용하되 형평성 과제가 남는다.',style:'action',result:'서연은 제한된 시간에 공용실을 쓰게 됐다. 벽 아래의 습기 자국도 함께 발견됐다.',thought:'빈방 하나가 해결책이 되자, 그동안 보이지 않던 문제도 모습을 드러냈다.',post:[s('이야기','지하 공용실','none','강태식','태식이 문을 열자 눅눅한 공기와 함께 오래 접힌 의자들이 모습을 드러냈다.'),s('도윤','관리소장','doyun','정서연','“일단 일주일만, 정해진 시간에 사용해봅시다. 다른 주민도 같은 기준으로 신청할 수 있어야 합니다.”'),s('정서연','입시 준비생','npc','정서연','“청소와 정리는 제가 할게요. 연습할 수 있다면 충분해요.”'),s('강태식','경비반장','npc','강태식','“벽 아래 물자국은 사진으로 남겨두겠습니다. 비 오기 전에 한 번 봐야겠어요.”',{others:['서연']})]}]},
+{day:'4일차',type:'훈훈 사건',title:'우산 한 칸',place:'garden-rain',scenes:[
+s('이야기','옥상 점검 뒤','none','정서연','도윤이 옥상 점검을 마치고 내려오자 굵은 빗방울이 화단 흙을 두드리기 시작했다.'),
+s('이야기','갑작스러운 소나기','none','한명숙','출입구 처마 아래에 명숙이 서 있었다. 접이식 우산은 집 현관에 두고 온 모양이었다.'),
+s('한명숙','5층 주민','npc','한명숙','“요즘 비는 예고도 없이 오네요. 조금 기다리면 그치겠죠.”'),
+s('이야기','하교길','none','정서연','그때 교복 차림의 서연이 우산을 기울이며 천천히 다가왔다.'),
+s('정서연','입시 준비생','npc','정서연','“같은 동이시죠? 같이 가세요.”',{others:['명숙']}),
+s('한명숙','5층 주민','npc','한명숙','“학생 가방 다 젖겠어. 조금만 이쪽으로 와요.”',{others:['서연']}),
+s('이야기','우산 한 칸','none','정서연','두 사람은 서로 젖지 않게 우산을 밀어주다 결국 어깨 한쪽씩 비에 젖었다.',{others:['명숙']}),
+s('이야기','처마 아래','none','정서연','도윤은 처마 아래에서 그 모습을 지켜보다 빗물받이에 걸린 나뭇잎을 치웠다.'),
+s('이야기','다음 날','none','정서연','우산은 관리사무소 앞에 돌아와 있었다. 손잡이에는 작은 사탕 봉지와 ‘학생에게’라는 쪽지가 매달려 있었다.',{place:'office'})],result:'누가 시키지 않아도 주민 사이에는 작은 도움이 오갔다.',thought:'민원이 없던 날에도 라이프아파트의 이야기는 조금씩 앞으로 갔다.'},
+{day:'5일차',type:'핵심 사건',title:'잠깐 세운 차',place:'parking',scenes:[
+s('이야기','주차장 경적','none','강태식','짧은 경적이 두 번 울렸다. 도윤이 내려가 보니 승용차 한 대가 진입로 한쪽을 막고 있었다.'),
+s('강태식','경비반장','npc','강태식','“여기는 비상 차량이 들어오는 길입니다. 지금 바로 빼셔야 합니다.”'),
+s('임성호','차량 주민','npc','임성호','“무거운 짐만 올려놓고 바로 뺄 생각이었습니다. 십 분도 안 걸려요.”',{others:['태식']}),
+s('강태식','경비반장','npc','강태식','“그 십 분이 매일 겹칩니다. 구급차가 들어올 때는 잠깐이라는 말이 통하지 않아요.”',{others:['성호']}),
+s('도윤','관리소장','doyun','임성호','“우선 차부터 비상 통로 밖으로 옮겨주세요. 짐을 내릴 방법은 그다음에 같이 보겠습니다.”',{others:['태식']}),
+s('이야기','통로 확보','none','임성호','성호가 차를 옮기자 막혀 있던 노란 비상선이 다시 드러났다.'),
+s('임성호','차량 주민','npc','임성호','“규정은 압니다. 그런데 지하 주차장은 높이가 낮고, 먼 곳에서 이 상자를 다 들고 오기도 어렵습니다.”'),
+s('도윤','관리소장','doyun','임성호','“하역할 공간이 없어서 이 자리를 쓰게 된 겁니까?”'),
+s('임성호','차량 주민','npc','임성호','“네. 저뿐 아니라 택배차도 잠깐씩 여기 섭니다. 서로 눈치만 보는 거죠.”'),
+s('강태식','경비반장','npc','강태식','“정해진 자리가 없으니 막을 때마다 제가 뛰어와야 합니다.”',{others:['성호']}),
+s('이야기','바닥의 선','none','임성호','도윤은 비상선 옆 빈 면과 차량이 도는 폭을 천천히 살폈다.',{others:['태식']}),
+s('도윤','관리소장','doyun','강태식','“통로는 지금처럼 비워두고, 반복되는 하역 문제를 따로 풀어야겠습니다.”')],choices:[
+{label:'주차 규정을 즉시 적용한다.',sub:'비상 통로를 우선 확보한다.',style:'principle',result:'차량은 바로 이동했다. 통로는 열렸지만 하역할 장소가 없다는 불편은 남았다.',thought:'잠깐의 편의와 언제 올지 모를 위험은 같은 저울에 놓기 어렵다.',post:[s('도윤','관리소장','doyun','임성호','“오늘부터 비상선 안 정차는 시간과 관계없이 금지하겠습니다.”'),s('임성호','차량 주민','npc','임성호','“알겠습니다. 오늘 짐은 먼 쪽에 세우고 옮길게요.”'),s('강태식','경비반장','npc','강태식','“같은 기준을 택배 차량에도 안내하겠습니다.”',{others:['성호']}),s('이야기','다시 열린 길','none','임성호','통로는 비었지만 성호는 먼 주차면에서 상자를 한 개씩 옮겨야 했다.')]},
+{label:'시간제 하역 구역을 시험 운영한다.',sub:'현장에서 작동할 임시 기준을 만든다.',style:'action',result:'한쪽 면에 임시 하역 시간이 표시됐다. 이용이 몰리는 시간대는 더 살펴봐야 한다.',thought:'선을 하나 긋는 일에도 누가 언제 그 길을 쓰는지 알아야 했다.',post:[s('이야기','빈 주차면','none','강태식','도윤과 태식은 회전 폭을 확인한 뒤 비상선 밖 한 면에 임시 표지를 세웠다.'),s('도윤','관리소장','doyun','임성호','“한 번에 십 분, 연락처를 남기고 운전자는 근처에 있어야 합니다.”'),s('임성호','차량 주민','npc','임성호','“직접 써보고 불편한 시간대는 말씀드리겠습니다.”'),s('강태식','경비반장','npc','강태식','“일주일 동안 사용 시간을 적어두죠. 표지만 세우고 끝낼 일은 아닙니다.”',{others:['성호']})]},
+{label:'사용 규칙을 함께 정한다.',sub:'실제 이용자와 필요한 폭과 시간을 정한다.',style:'relation',result:'성호와 태식은 말투가 딱딱했지만 필요한 폭과 시간을 함께 재기 시작했다.',thought:'다투던 두 사람이 같은 줄자를 잡는 데에도 작은 시작은 있었다.',post:[s('도윤','관리소장','doyun','임성호','“비상 통로는 지금 비웁니다. 대신 실제로 필요한 시간과 폭을 두 분이 같이 확인해주세요.”',{others:['태식']}),s('임성호','차량 주민','npc','임성호','“짐이 큰 날과 택배차가 몰리는 시간을 적어오겠습니다.”'),s('강태식','경비반장','npc','강태식','“제가 차량 회전 폭을 재죠. 통로를 건드리지 않는 선에서 봅시다.”',{others:['성호']}),s('이야기','같은 줄자','none','임성호','차는 이미 옮겨져 있었다. 성호와 태식은 비상선 바깥에서 줄자의 양끝을 잡았다.',{others:['태식']})]}]},
+{day:'6일차',type:'훈훈 사건',title:'화분을 살린 사람',place:'office',scenes:[
+s('이야기','관리사무소 창가','none','윤정희','며칠 전까지 고개를 숙였던 화분에서 연둣빛 새잎이 올라와 있었다.'),
+s('도윤','관리소장','doyun','윤정희','“태식 반장님이 물을 주셨나?”'),
+s('이야기','문밖의 인기척','none','윤정희','문밖에서 물뿌리개가 바닥에 닿는 작은 소리가 났다.'),
+s('윤정희','단지 주민','npc','윤정희','“아… 지나갈 때 흙이 말라 있으면 조금씩 줬어요. 허락 없이 만져서 죄송합니다.”'),
+s('도윤','관리소장','doyun','윤정희','“죄송할 일은 아니죠. 오히려 제가 놓치고 있었습니다.”'),
+s('윤정희','단지 주민','npc','윤정희','“물을 너무 많이 주는 사람도 있더라고요. 그래서 마른 날만 줬습니다.”'),
+s('도윤','관리소장','doyun','윤정희','“그럼 이제 물 준 날을 같이 표시해둘까요? 돌보는 사람끼리 헷갈리지 않게요.”'),
+s('이야기','작은 관리표','none','윤정희','정희는 달력 구석에 조심스럽게 물방울 하나를 그렸다.'),
+s('강태식','경비반장','npc','강태식','“소장님보다 화분 사정을 먼저 안 주민이 있었네요.”',{others:['정희']}),
+s('이야기','새잎','none','윤정희','누가 알아주지 않아도 돌보는 사람이 있다는 걸, 새잎 하나가 먼저 알려주었다.')],result:'관리사무소 화분에 물 준 날을 함께 적는 작은 약속이 생겼다.',thought:'잘 보이지 않는 돌봄도 기록해두면 다음 사람이 이어갈 수 있다.'},
+{day:'7일차',type:'핵심 사건',title:'밥그릇이 놓인 자리',place:'parking',scenes:[
+s('이야기','저녁 순찰','none','윤정희','지하 출입구를 돌던 도윤은 차량 아래로 재빨리 사라지는 고양이 한 마리를 보았다.'),
+s('이야기','출입구 모퉁이','none','윤정희','벽 아래 밥그릇 주변에는 젖은 사료가 흩어져 있었다. 사람과 차량 모두에게 불편한 자리였다.'),
+s('윤정희','급식소 관리 주민','npc','윤정희','“사람 눈에 덜 띄고 비도 피할 수 있어서 여기 둔 겁니다. 치우면 고양이들이 차 사이로 다녀요.”'),
+s('도윤','관리소장','doyun','윤정희','“돌보려는 마음은 알겠습니다. 하지만 출입구와 차량 바로 옆은 위험합니다.”'),
+s('이야기','대화에 끼어든 사람','none','박선우','그때 주차장 쪽을 지나던 선우가 밥그릇 앞에서 걸음을 멈췄다.'),
+s('박선우','입주자대표','npc','박선우','“공용 공간을 개인 판단으로 쓰기 시작하면 누구에게 같은 기준을 적용해야 합니까?”',{others:['정희']}),
+s('윤정희','급식소 관리 주민','npc','윤정희','“치우기만 하면 끝인가요? 배고픈 고양이는 더 위험한 곳으로 갑니다.”',{others:['선우']}),
+s('박선우','입주자대표','npc','박선우','“먹이지 말자는 게 아닙니다. 냄새와 벌레, 아이들 안전도 누군가는 책임져야죠.”',{others:['정희']}),
+s('강태식','경비반장','npc','강태식','“위생도 문제지만 차량 아래로 들어가는 고양이도 걱정입니다. 자리를 함께 다시 봐야겠습니다.”',{others:['정희','선우']}),
+s('이야기','서로 다른 걱정','none','윤정희','정희는 고양이를, 선우는 주민을, 태식은 위험한 동선을 보고 있었다.',{others:['선우','태식']}),
+s('도윤','관리소장','doyun','윤정희','“지금 자리의 사료부터 치우고 바닥을 닦겠습니다. 급식 자체를 어떻게 할지는 그다음에 정하죠.”',{others:['선우']}),
+s('이야기','임시 정리','none','강태식','태식과 정희가 젖은 사료를 치우는 동안 선우는 출입하는 주민에게 바닥을 조심하라고 알렸다.',{others:['정희','선우']}),
+s('도윤','관리소장','doyun','강태식','“통행과 위생을 확보한 상태에서, 계속 지킬 수 있는 방식을 골라야겠습니다.”')],choices:[
+{label:'급식소를 철거하고 규정을 적용한다.',sub:'공용 공간의 일관된 기준을 지킨다.',style:'principle',result:'출입구는 정리됐다. 정희는 다른 장소를 찾기 전까지 급식을 중단하기로 했다.',thought:'깨끗해진 자리만 보고 해결됐다고 말하기에는 남은 생명이 있었다.',post:[s('도윤','관리소장','doyun','윤정희','“출입구 급식은 중단하겠습니다. 그릇은 오늘 철거하고 대체 장소 기준을 따로 찾겠습니다.”',{others:['선우']}),s('윤정희','단지 주민','npc','윤정희','“마음에 들진 않지만 위험한 자리는 맞아요. 다른 곳을 찾을 때까지 치우겠습니다.”'),s('박선우','입주자대표','npc','박선우','“대체 장소를 검토할 때 위생 기준도 같이 보겠습니다.”',{others:['정희']}),s('이야기','비워진 모퉁이','none','윤정희','출입구는 깨끗해졌다. 정희는 빈 그릇을 든 채 고양이가 사라진 쪽을 오래 바라보았다.')]},
+{label:'위생 조건을 갖춘 장소를 시험 운영한다.',sub:'통행과 공존을 함께 살핀다.',style:'action',result:'세척 가능한 그릇과 관리표가 생겼다. 위치가 적절한지는 시험 기간 뒤 다시 보기로 했다.',thought:'공존에는 마음뿐 아니라 계속 지킬 수 있는 관리가 필요했다.',post:[s('이야기','새 시험 장소','none','강태식','네 사람은 차량 동선과 출입구에서 떨어진 화단 뒤편을 살폈다.'),s('도윤','관리소장','doyun','윤정희','“일주일 동안만 시험합니다. 정해진 시간 뒤에는 그릇을 씻어 보관해주세요.”',{others:['선우']}),s('윤정희','단지 주민','npc','윤정희','“관리표도 제가 적겠습니다. 냄새나 벌레가 생기면 바로 말씀드릴게요.”'),s('박선우','입주자대표','npc','박선우','“기록이 남는다면 주민들에게도 시험 운영이라고 설명하겠습니다.”',{others:['정희']})]},
+{label:'주민 의견 전까지 임시 기준을 만든다.',sub:'당장 지킬 선을 만들고 논의를 연다.',style:'relation',result:'급식 시간과 청소 담당이 정해졌다. 의견이 모일 때까지 정희와 태식이 상태를 기록한다.',thought:'결론을 미루는 대신, 그동안 아무렇게나 두지 않을 약속을 만들었다.',post:[s('도윤','관리소장','doyun','윤정희','“주민 의견을 받는 동안 출입구에서는 치우고, 임시 위치와 급식 시간을 정하겠습니다.”',{others:['선우']}),s('박선우','입주자대표','npc','박선우','“찬성과 반대만 묻지 말고, 걱정되는 점도 함께 받죠.”'),s('윤정희','단지 주민','npc','윤정희','“청소 기록과 고양이가 오는 시간은 제가 적겠습니다.”',{others:['선우']}),s('강태식','경비반장','npc','강태식','“저는 통행과 습기 상태를 같이 보겠습니다. 임시라는 말이 방치가 되면 안 되니까요.”',{others:['정희','선우']})]}]}
+];
+const projects=[
+{id:'A',name:'복도 안전 정비',cost:80,recommended:'태식',answer:0,effects:['세대 안 보관 부담을 줄이면서 복도 금지 기준을 유지할 정식 보관 공간을 만듭니다.','임시 보관선을 실제 이용량에 맞는 고정 공간으로 바꿉니다.','주민이 합의한 위치와 이용 기준을 정식 보관 공간에 적용합니다.']},
+{id:'B',name:'주민 쉼터 정비',cost:140,recommended:'태식',answer:2,effects:['세대 내 소음 기준을 유지하면서 대안 연습 공간을 정비합니다.','서로 맞춘 생활 시간을 주민 쉼터 이용표에 반영합니다.','시험 개방한 주민 쉼터의 습기를 확인하고 운영 기준을 만듭니다.']},
+{id:'C',name:'주차·하역 구역 정비',cost:100,recommended:'태식',answer:4,effects:['비상 통로 규정을 유지하면서 별도의 하역 공간을 만듭니다.','시험 운영한 하역선을 정식 표시와 안내판으로 바꿉니다.','합의한 폭과 이용 시간을 실제 공간에 반영합니다.']},
+{id:'D',name:'화단·급식소 정비',cost:70,recommended:'도윤',answer:6,effects:['통행로 밖에 허용 가능한 급식 위치와 위생 설비를 만듭니다.','시험 장소를 세척과 기록이 가능한 위생 공간으로 바꿉니다.','임시 기록을 바탕으로 위치와 위생 기준을 정식화합니다.']},
+{id:'E',name:'공동현관·안내 구역 정비',cost:60,recommended:'도윤',effects:['게시판과 우편함, 택배 공간을 정돈해 안내 누락과 출입구 혼잡을 줄입니다.']}
+];
+const epilogue=[
+s('이야기','일주일 뒤','none','강태식','첫 관리 계획에 넣은 공사가 작은 소음과 함께 시작됐다.',{place:'office'}),
+s('강태식','경비반장','npc','강태식','“못 고른 곳은 다음 계획에 다시 올리겠습니다. 한꺼번에 다 하려다간 아무것도 제대로 못 하니까요.”',{place:'office'}),
+s('도윤','관리소장','doyun','강태식','“이번 주에는 호수보다 이름을 더 많이 적은 것 같습니다.”',{place:'office'}),
+s('이야기','해 질 무렵','none','윤정희','창가 화분의 새잎 뒤로 아파트 창문이 하나둘 밝아졌다.',{place:'office'}),
+s('이야기','마지막 방문자','none','오지혜','사무소 문을 닫으려던 순간, 조심스러운 노크 소리가 다시 들렸다.',{place:'office'}),
+s('오지혜','야간 근무 주민','npc','오지혜','“소장님, 이번에는 민원 때문에 온 게 아니에요. 부탁드릴 게 하나 있어서요.”',{place:'office'}),
+s('이야기','문 너머의 이야기','none','오지혜','사람은 문제가 해결된 뒤에야 꺼낼 수 있는 이야기도 있었다.',{place:'office'})
+];
+const $=id=>document.getElementById(id),stage=$('stage'),cover=$('cover'),propLayer=$('prop-layer'),doyun=$('doyun'),doyunFigure=$('doyun-figure'),npc=$('npc'),npcFigure=$('npc-figure'),npcName=$('npc-name'),reaction=$('reaction'),bubble=$('bubble'),speaker=$('speaker'),role=$('role'),line=$('line'),choices=$('choices'),choiceList=$('choice-list'),reflection=$('reflection'),management=$('management'),planResult=$('plan-result'),actReview=$('act-review'),ending=$('ending'),history=$('history'),historyList=$('history-list'),chapter=$('chapter'),progress=$('progress'),progressbar=document.querySelector('.progress'),prev=$('prev'),historyOpen=$('history-open');
+let dayIndex=0,sceneIndex=0,postIndex=0,epiIndex=0,view='cover',selected=0,answers={},assignments={},log=[];
+const STORAGE_KEY='office_v10_apply',LEGACY_BACKUP_KEY='office_v10_apply_legacy_v1_2_1';
+function progressSnapshot(){return{schema:2,version:'v1.3.0',dayIndex,sceneIndex,postIndex,epiIndex,view,selected,answers,assignments,log}}
+function saveProgress(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const current=JSON.parse(raw);if(current&&typeof current.idx==='number'&&!localStorage.getItem(LEGACY_BACKUP_KEY))localStorage.setItem(LEGACY_BACKUP_KEY,raw)}localStorage.setItem(STORAGE_KEY,JSON.stringify(progressSnapshot()))}catch(error){console.warn('진행 저장 실패',error)}}
+function loadProgress(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(!saved||saved.schema!==2)return false;dayIndex=Math.min(Math.max(Number(saved.dayIndex)||0,0),days.length-1);sceneIndex=Math.max(Number(saved.sceneIndex)||0,0);postIndex=Math.max(Number(saved.postIndex)||0,0);epiIndex=Math.max(Number(saved.epiIndex)||0,0);view=saved.view||'cover';selected=Math.max(Number(saved.selected)||0,0);answers=saved.answers||{};assignments=saved.assignments||{};log=Array.isArray(saved.log)?saved.log:[];return true}catch{return false}}
+function showSavedView(){const day=days[dayIndex];sceneIndex=Math.min(sceneIndex,day.scenes.length-1);if(view==='main')renderMain();else if(view==='choices')showChoices();else if(view==='post'){selected=answers[dayIndex]??selected;postIndex=Math.min(postIndex,day.choices[selected].post.length-1);renderPost()}else if(view==='reflection'){const choice=day.choices?.[answers[dayIndex]??selected];showReflection(choice?.result||day.result,choice?.thought||day.thought)}else if(view==='management')showManagement();else if(view==='plan-result')showPlanResult();else if(view==='act-review')showActReview();else if(view==='epilogue'){epiIndex=Math.min(epiIndex,epilogue.length-1);renderEpilogue()}else if(view==='ending')showEnding()}
 
-// Same visual height as the protagonist. Tall source sheets are reduced more strongly.
-const CHAR_SCALE = {
-  doyun: 1.00,
-  odong: 0.98,
-  choi: 0.98,
-  park: 0.61,
-  han: 0.61,
-  kim: 0.61,
-  lee: 0.61,
-  yoon: 0.98,
-  seoji: 0.98,
-  boy: 0.94,
-  girl: 0.61,
-  grandma: 0.61,
-  grandpa: 0.98,
-  security: 0.61
-};
-
-let state = {
-  day: 1,
-  idx: 0,
-  turn: 0,
-  sat: 68,
-  fac: 74,
-  trust: 60,
-  money: 12400000,
-  log: []
-};
-
-function defaultState() {
-  return { day:1, idx:0, turn:0, sat:68, fac:74, trust:60, money:12400000, log:[] };
-}
-function clamp(v) { return Math.max(0, Math.min(100, v)); }
-function money(v) { return Math.round(v).toLocaleString("ko-KR") + "원"; }
-
-function updateHud() {
-  document.getElementById("satVal").textContent = Math.round(state.sat);
-  document.getElementById("facVal").textContent = Math.round(state.fac);
-  document.getElementById("trustVal").textContent = Math.round(state.trust);
-  document.getElementById("moneyVal").textContent = money(state.money);
-  document.getElementById("satBar").style.width = clamp(state.sat) + "%";
-  document.getElementById("facBar").style.width = clamp(state.fac) + "%";
-  document.getElementById("trustBar").style.width = clamp(state.trust) + "%";
-  document.getElementById("dayPill").textContent = EVENTS[state.idx]?.title || "운영 평가";
-  document.getElementById("countPill").textContent = Math.min(state.idx + 1, EVENTS.length) + " / " + EVENTS.length;
-}
-
-function getNpcForEvent(ev) {
-  if (!ev?.turns?.length) return "park";
-  const firstNpc = ev.turns.find(t => t.char !== "doyun");
-  return firstNpc?.char || "park";
-}
-
-function getRightCharacter(ev, turn) {
-  if (turn?.char && turn.char !== "doyun") return turn.char;
-  return getNpcForEvent(ev);
-}
-
-function setSprite(el, charKey, emotion) {
-  const c = CHARS[charKey] || CHARS.park;
-  el.style.backgroundImage = `url('${c.sheet}')`;
-  el.style.backgroundPosition = EMOTION_POS[emotion] || EMOTION_POS.neutral;
-  el.style.setProperty("--sprite-scale", String(CHAR_SCALE[charKey] || 0.85));
-  el.dataset.char = charKey;
-}
-
-function setTag(elId, charKey) {
-  const c = CHARS[charKey] || CHARS.park;
-  document.getElementById(elId).innerHTML = `<b>${c.name}</b><span>${c.role} · ${c.age}</span>`;
-}
-
-function renderCast(speakerKey, emotion, rightKeyOverride) {
-  const ev = EVENTS[state.idx];
-  const turn = ev?.turns?.[state.turn];
-  const rightKey = rightKeyOverride || getRightCharacter(ev, turn);
-
-  const leftSlot = document.getElementById("leftSlot");
-  const rightSlot = document.getElementById("rightSlot");
-  const leftSprite = document.getElementById("leftSprite");
-  const rightSprite = document.getElementById("rightSprite");
-
-  // Change sprite instantly. No sheet-panning/flip animation when a button is pressed.
-  setSprite(leftSprite, "doyun", speakerKey === "doyun" ? emotion : "neutral");
-  setSprite(rightSprite, rightKey, speakerKey !== "doyun" ? emotion : "neutral");
-  setTag("leftTag", "doyun");
-  setTag("rightTag", rightKey);
-
-  leftSlot.classList.toggle("active", speakerKey === "doyun");
-  leftSlot.classList.toggle("inactive", speakerKey !== "doyun");
-  rightSlot.classList.toggle("active", speakerKey !== "doyun");
-  rightSlot.classList.toggle("inactive", speakerKey === "doyun");
-}
-
-function setSpeaker(charKey) {
-  const c = CHARS[charKey] || CHARS.park;
-  document.getElementById("speakerName").textContent = c.name;
-  document.getElementById("speakerRole").textContent = c.role + " · " + c.age;
-}
-
-function animateDialogue() {
-  const d = document.getElementById("dialogue");
-  d.classList.remove("reenter");
-  void d.offsetWidth;
-  d.classList.add("reenter");
-}
-
-function showTurn() {
-  updateHud();
-  const ev = EVENTS[state.idx];
-  if (!ev) {
-    finishGame();
-    return;
-  }
-  const turn = ev.turns[state.turn];
-  if (!turn) {
-    showChoices();
-    return;
-  }
-
-  renderCast(turn.char, turn.emotion || "neutral", getRightCharacter(ev, turn));
-  setSpeaker(turn.char);
-  document.getElementById("lineText").textContent = turn.text;
-  document.getElementById("subText").textContent = turn.sub || "";
-  document.getElementById("dialogue").classList.remove("hidden");
-  document.getElementById("dialogue").classList.remove("choice-mode");
-  document.getElementById("choices").classList.add("hidden");
-  animateDialogue();
-}
-
-function nextTurn() {
-  const ev = EVENTS[state.idx];
-  state.turn += 1;
-  if (state.turn >= ev.turns.length) showChoices();
-  else showTurn();
-}
-
-function showChoices() {
-  const ev = EVENTS[state.idx];
-  const rightKey = getNpcForEvent(ev);
-
-  renderCast("doyun", "neutral", rightKey);
-  setSpeaker("doyun");
-  document.getElementById("lineText").textContent = "이 상황에서는 어떤 판단을 내릴까?";
-  document.getElementById("subText").textContent = `${CHARS[rightKey].name}의 상황을 보고 판단해보자.`;
-  document.getElementById("dialogue").classList.add("choice-mode");
-  animateDialogue();
-
-  const box = document.getElementById("choices");
-  box.classList.remove("hidden");
-  box.innerHTML = ev.choices.map((c, i) => `
-    <div class="choice">
-      <div>
-        <h4>${i + 1}. ${c.t}</h4>
-        <p>${c.d}</p>
-      </div>
-      <button onclick="choose(${i})">선택</button>
-    </div>
-  `).join("");
-}
-
-function makeDelta(label, val) {
-  if (!val) return "";
-  const cls = val > 0 ? "plus" : "minus";
-  const sign = val > 0 ? "+" : "";
-  return `<span class="delta ${cls}">${label} ${sign}${Number(val).toLocaleString("ko-KR")}</span>`;
-}
-
-function renderLog() {
-  const list = document.getElementById("logList");
-  list.innerHTML = state.log.length ? state.log.join("") : '<div class="log-item">아직 기록이 없습니다.</div>';
-}
-
-function logChoice(ev, ch, fx, bonus) {
-  const deltas = [
-    makeDelta("만족도", fx.sat || 0),
-    makeDelta("시설", fx.fac || 0),
-    makeDelta("신뢰", fx.trust || 0),
-    makeDelta("예산", fx.money || 0),
-    bonus?.money ? makeDelta("추가수익", bonus.money) : ""
-  ].filter(Boolean).join("");
-
-  state.log.unshift(`
-    <div class="log-item">
-      <b>${ev.title}</b><br>
-      선택: ${ch.t}<br>
-      결과: ${ch.res}
-      <div class="delta-row">${deltas}</div>
-    </div>
-  `);
-  renderLog();
-}
-
-function transitionToNext(message) {
-  const ov = document.getElementById("transition");
-  document.getElementById("transitionTitle").textContent = message;
-  document.getElementById("transitionSub").textContent = state.idx < EVENTS.length ? EVENTS[state.idx].title : "운영 평가로 이동합니다.";
-  ov.classList.add("show");
-  setTimeout(() => {
-    ov.classList.remove("show");
-    if (state.idx >= EVENTS.length) finishGame();
-    else showTurn();
-  }, 650);
-}
-
-function choose(i) {
-  const ev = EVENTS[state.idx];
-  const ch = ev.choices[i];
-  const fx = ch.fx || {};
-  const bonus = ch.bonus || null;
-
-  state.sat = clamp(state.sat + (fx.sat || 0));
-  state.fac = clamp(state.fac + (fx.fac || 0));
-  state.trust = clamp(state.trust + (fx.trust || 0));
-  state.money += (fx.money || 0);
-  if (bonus?.money) state.money += bonus.money;
-
-  logChoice(ev, ch, fx, bonus);
-  state.day += 1;
-  state.idx += 1;
-  state.turn = 0;
-
-  updateHud();
-  autoSave();
-  toast(ch.res);
-  document.getElementById("choices").classList.add("hidden");
-  transitionToNext("결정 완료");
-}
-
-function scoreGame() {
-  const avg = (state.sat + state.fac + state.trust) / 3;
-  if (state.money >= 16500000 && avg >= 78) return {
-    title: "흑자도 내고 신뢰도 얻었다", rank: "S",
-    text: "수익과 운영, 사람 관리의 균형을 잘 잡았습니다. 꽤 훌륭한 결과입니다."
-  };
-  if (avg >= 80) return {
-    title: "명예 관리소장", rank: "A+",
-    text: "사람과 시설, 조직을 안정적으로 챙겼습니다."
-  };
-  if (avg >= 67) return {
-    title: "욕은 먹었지만 굴러갔다", rank: "B+",
-    text: "모두를 만족시키진 못했지만 아파트는 잘 굴러갔습니다."
-  };
-  if (state.sat < 35) return {
-    title: "주민소환 직전", rank: "D+",
-    text: "시설은 돌아가지만 주민 신뢰가 크게 흔들렸습니다."
-  };
-  if (state.money < 0) return {
-    title: "관리비 블랙홀", rank: "D",
-    text: "의도는 좋았지만 재무가 버티지 못했습니다."
-  };
-  return {
-    title: "다음 주가 더 무섭다", rank: "B-",
-    text: "큰 붕괴는 없었지만 숙제가 많이 남았습니다."
-  };
-}
-
-function finishGame() {
-  const r = scoreGame();
-  document.getElementById("resultTitle").textContent = r.title;
-  document.getElementById("resultRank").textContent = r.rank;
-  document.getElementById("resultText").textContent = r.text;
-  document.getElementById("resultRows").innerHTML = `
-    <div class="row"><span>주민 만족도</span><b>${Math.round(state.sat)}</b></div>
-    <div class="row"><span>시설 상태</span><b>${Math.round(state.fac)}</b></div>
-    <div class="row"><span>직원 신뢰</span><b>${Math.round(state.trust)}</b></div>
-    <div class="row"><span>최종 예산</span><b>${money(state.money)}</b></div>
-  `;
-  document.getElementById("resultOverlay").classList.remove("hidden");
-}
-
-function toast(msg) {
-  const t = document.createElement("div");
-  t.className = "toast";
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2350);
-}
-
-function autoSave() {
-  localStorage.setItem("office_v10_apply", JSON.stringify(state));
-}
-
-function loadSave() {
-  try {
-    const s = JSON.parse(localStorage.getItem("office_v10_apply"));
-    if (s && typeof s.idx === "number") {
-      state = s;
-      return true;
-    }
-  } catch (e) {}
-  return false;
-}
-
-function exportSave() {
-  const payload = { game: "오늘도 관리사무소", version: "v1.2.1", savedAt: new Date().toISOString(), state };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "오늘도_관리사무소_v1.2.1_save.json";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  toast("세이브 파일 저장 완료");
-}
-
-function importSave(file) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const obj = JSON.parse(reader.result);
-      const incoming = obj.state || obj;
-      if (typeof incoming.idx !== "number") throw new Error("bad");
-      state = incoming;
-      autoSave();
-      renderLog();
-      updateHud();
-      document.getElementById("startOverlay").classList.add("hidden");
-      document.getElementById("resultOverlay").classList.add("hidden");
-      state.idx >= EVENTS.length ? finishGame() : showTurn();
-      toast("세이브 파일 불러오기 완료");
-    } catch (e) {
-      toast("세이브 파일을 확인해주세요.");
-    }
-  };
-  reader.readAsText(file, "utf-8");
-}
-
-function restartGame() {
-  localStorage.removeItem("office_v10_apply");
-  state = defaultState();
-  renderLog();
-  document.getElementById("resultOverlay").classList.add("hidden");
-  document.getElementById("startOverlay").classList.add("hidden");
-  document.getElementById("choices").classList.add("hidden");
-  showTurn();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function preloadCharacterSheets() {
-  [...new Set(Object.values(CHARS).map(c => c.sheet))].forEach(src => {
-    const img = new Image();
-    img.src = src;
-  });
-}
-
-document.getElementById("startBtn").onclick = () => {
-  document.getElementById("startOverlay").classList.add("hidden");
-  showTurn();
-};
-document.getElementById("nextBtn").onclick = nextTurn;
-document.getElementById("restartBtn").onclick = () => {
-  if (confirm("현재 진행을 지우고 새 게임을 시작할까요?")) restartGame();
-};
-document.getElementById("saveBtn").onclick = () => { autoSave(); toast("빠른 저장 완료"); };
-document.getElementById("exportBtn").onclick = exportSave;
-document.getElementById("importBtn").onclick = () => document.getElementById("fileInput").click();
-document.getElementById("fileInput").addEventListener("change", (e) => {
-  const file = e.target.files?.[0];
-  if (file) importSave(file);
-  e.target.value = "";
-});
-
-preloadCharacterSheets();
-updateHud();
-renderLog();
-setSprite(document.getElementById("leftSprite"), "doyun", "neutral");
-setSprite(document.getElementById("rightSprite"), getNpcForEvent(EVENTS[0]), "neutral");
-setTag("leftTag", "doyun");
-setTag("rightTag", getNpcForEvent(EVENTS[0]));
-
-if (loadSave()) {
-  document.getElementById("startOverlay").classList.add("hidden");
-  renderLog();
-  state.idx >= EVENTS.length ? finishGame() : showTurn();
-}
+function hide(){[cover,bubble,choices,reflection,management,planResult,actReview,ending,history].forEach(el=>el.classList.add('hidden'));reaction.classList.add('hidden');propLayer.replaceChildren()}
+function setProgress(n){progress.style.width=`${n}%`;progressbar.setAttribute('aria-valuenow',String(n))}
+function resolve(scene){return {...scene,text:scene.textByDay1?.[answers[0]??0]||scene.text,place:scene.place||days[dayIndex]?.place||'office'}}
+function propsFor(scene){const text=scene.text||'',rules=[];if(/손바닥에 올려진 열쇠 꾸러미/.test(text))rules.push(['full','keys']);if(/복도 한편에 쌍둥이용 유모차/.test(text))rules.push(['daily','stroller']);if(/비에 젖은 택배 상자/.test(text))rules.push(['daily','parcel']);if(/연습 시간과 소음 방지 수칙|같은 연습표/.test(text))rules.push(['life','schedule']);if(/서로 젖지 않게 우산/.test(text))rules.push(['full','umbrella-back']);if(/사탕 봉지/.test(text))rules.push(['life','candy']);if(/승용차 한 대가 진입로/.test(text))rules.push(['life','car']);if(/바닥에 임시 보관선을|임시 표지를 세웠다|줄자의 양끝/.test(text))rules.push(['care','line-kit']);if(/달력 구석에.*물방울/.test(text))rules.push(['life','plant']);if(/차량 아래로.*고양이/.test(text))rules.push(['care','cat']);if(/밥그릇 주변.*사료|젖은 사료를 치우는/.test(text))rules.push(['care','bowls']);return rules}
+function renderProps(scene){const rules=propsFor(scene);propLayer.replaceChildren();if(!rules.length)return false;const key=rules[0][1],full=key==='keys'||key==='umbrella-back',cutin=document.createElement('div'),backdrop=document.createElement('span');cutin.className='cutin';backdrop.className=`cutin-backdrop ${key==='keys'?'keys-hand':full?key:scene.place}`;cutin.append(backdrop);if(full){const photo=document.createElement('span');photo.className=`cutin-photo ${key==='keys'?'keys-hand':key}`;cutin.append(photo)}else rules.slice(0,2).forEach(([atlas,name])=>{const item=document.createElement('span');item.className=`cutin-art ${atlas} ${name}`;cutin.append(item)});propLayer.append(cutin);return true}
+function setCharacter(scene){doyun.className='character left hidden';npc.className='character right hidden';const mood=scene.emotion||inferEmotion(scene);if(scene.who==='doyun'){doyun.classList.remove('hidden');doyun.classList.add('speaking');paintFigure(doyunFigure,'도윤',scene.doyunEmotion||mood)}else if(scene.who==='npc'){npc.classList.remove('hidden');npc.classList.add('speaking');paintFigure(npcFigure,scene.npc,mood);npcName.textContent=scene.npc}const explicit=[...(scene.others||[])],names=explicit.length?(scene.who==='doyun'?[scene.npc,...explicit]:scene.who==='npc'?(explicit.length<2?['도윤',...explicit]:explicit):[scene.npc,...explicit]):[];const visible=names.map(name=>aliases[name]||name).filter((name,index,list)=>name&&list.indexOf(name)===index).slice(0,2);reaction.replaceChildren();reaction.className=`reaction ${scene.who==='npc'?'left':'right'}`;visible.forEach(name=>{const item=document.createElement('div'),portrait=document.createElement('div'),figure=document.createElement('div'),copy=document.createElement('div'),strong=document.createElement('strong'),span=document.createElement('span');item.className='reaction-person';portrait.className='reaction-portrait';figure.className='reaction-figure';copy.className='reaction-copy';strong.textContent=name;span.textContent=reactionCopy[name]||'장면을 지켜본다';paintFigure(figure,name);portrait.append(figure);copy.append(strong,span);item.append(portrait,copy);reaction.append(item)});reaction.classList.toggle('hidden',!visible.length)}
+function renderDialogue(scene,label,percent){hide();scene=resolve(scene);chapter.textContent=scene.chapter||label;stage.className=`stage ${scene.place}`;const hasCutin=renderProps(scene);stage.classList.toggle('cutin-on',hasCutin);setCharacter(hasCutin?{...scene,who:'none',others:[]}:scene);bubble.className=`bubble ${scene.who==='doyun'?'right':scene.who==='npc'?'left':'narration'}`;speaker.textContent=scene.who==='none'?'':scene.speaker;role.textContent=scene.who==='none'?'':scene.role;line.textContent=scene.text;bubble.classList.remove('hidden');setProgress(percent);prev.disabled=view==='main'&&sceneIndex===0;historyOpen.disabled=false}
+function renderMain(){view='main';const day=days[dayIndex];renderDialogue(day.scenes[sceneIndex],`${day.day} · ${day.type}`,5+Math.round(((dayIndex+sceneIndex/day.scenes.length)/days.length)*76))}
+function renderPost(){view='post';const day=days[dayIndex],choice=day.choices[selected];renderDialogue(choice.post[postIndex],`${day.day} · 선택 이후`,10+Math.round(((dayIndex+.82)/days.length)*76));prev.disabled=false}
+function renderEpilogue(){view='epilogue';renderDialogue(epilogue[epiIndex],'1막 · 마무리',94+Math.round((epiIndex+1)/epilogue.length*5));prev.disabled=epiIndex===0}
+function currentScene(){if(view==='main')return resolve(days[dayIndex].scenes[sceneIndex]);if(view==='post')return resolve(days[dayIndex].choices[selected].post[postIndex]);if(view==='epilogue')return resolve(epilogue[epiIndex])}
+function logScene(scene){if(!scene)return;const key=`${view}-${dayIndex}-${scene.speaker}-${scene.text}`;if(log.some(item=>item.key===key))return;log.push({key,label:`${scene.who==='none'?'장면':scene.speaker} · ${scene.role}`,text:scene.text})}
+function advance(){logScene(currentScene());if(view==='main'){const day=days[dayIndex];if(sceneIndex<day.scenes.length-1){sceneIndex++;renderMain()}else if(day.choices)showChoices();else showReflection(day.result,day.thought)}else if(view==='post'){const post=days[dayIndex].choices[selected].post;if(postIndex<post.length-1){postIndex++;renderPost()}else{const choice=days[dayIndex].choices[selected];showReflection(choice.result,choice.thought)}}else if(view==='epilogue'){if(epiIndex<epilogue.length-1){epiIndex++;renderEpilogue()}else showEnding()}}
+function showChoices(){hide();view='choices';const day=days[dayIndex];chapter.textContent=`${day.day} · 선택`;stage.className=`stage ${day.place}`;doyun.className='character left speaking';npc.className='character right hidden';paintFigure(doyunFigure,'도윤','neutral');choiceList.replaceChildren();day.choices.forEach((choice,i)=>{const button=document.createElement('button');button.type='button';button.className=`choice ${choice.style}`;button.innerHTML=`${choice.label}<small>${choice.sub}</small>`;button.addEventListener('click',()=>choose(i));choiceList.append(button)});choices.classList.remove('hidden');prev.disabled=false;historyOpen.disabled=false}
+function choose(i){selected=i;answers[dayIndex]=i;postIndex=0;const day=days[dayIndex],choice=day.choices[i],key=`choice-${dayIndex}`;log=log.filter(item=>item.key!==key);log.push({key,label:`${day.day} · 도윤의 선택`,text:choice.label,choice:true});renderPost()}
+function showReflection(resultText,thoughtText){hide();view='reflection';const day=days[dayIndex];chapter.textContent=`${day.day} · 회상`;stage.className='stage office';$('reflection-type').textContent=day.type;$('reflection-title').textContent=day.title;$('reflection-sub').textContent=resultText;$('thought').textContent=thoughtText;$('next-day').textContent=dayIndex===days.length-1?'첫 관리 계획 세우기':'다음 날로';reflection.classList.remove('hidden');setProgress(10+Math.round((dayIndex+1)/days.length*76));prev.disabled=false;historyOpen.disabled=false}
+function nextDay(){if(dayIndex<days.length-1){dayIndex++;sceneIndex=0;postIndex=0;renderMain()}else showManagement()}
+function goBack(){if(view==='main'&&sceneIndex>0){sceneIndex--;renderMain()}else if(view==='choices'){sceneIndex=days[dayIndex].scenes.length-1;renderMain()}else if(view==='post'){if(postIndex>0){postIndex--;renderPost()}else showChoices()}else if(view==='reflection'){const day=days[dayIndex];if(day.choices){selected=answers[dayIndex]??0;postIndex=day.choices[selected].post.length-1;renderPost()}else{sceneIndex=day.scenes.length-1;renderMain()}}else if(view==='epilogue'&&epiIndex>0){epiIndex--;renderEpilogue()}}
+function openHistory(){logScene(currentScene());historyList.replaceChildren();log.forEach(item=>{const card=document.createElement('article');card.className=`history-item${item.choice?' choice-log':''}`;const b=document.createElement('strong');b.textContent=item.label;const p=document.createElement('p');p.textContent=item.text;card.append(b,p);historyList.append(card)});history.classList.remove('hidden');history.scrollTop=history.scrollHeight}
+function planIntro(){return ['복도 금지 기준으로 통행은 확보됐지만 준호의 세대 안 보관 부담이 남았습니다.','임시 보관선은 사용 중이지만 고정 장치와 점검 기준이 필요합니다.','5층 주민 논의는 끝나 위치와 이용 기준에 합의했습니다. 아직 실제 보관 설비는 없습니다.'][answers[0]??0]}
+function showManagement(){hide();view='management';chapter.textContent='첫 관리 계획';stage.className='stage office';doyun.classList.add('hidden');npc.classList.add('hidden');management.classList.remove('hidden');$('plan-context').textContent=`${planIntro()} 조감도에서 최대 두 곳을 고르세요.`;prev.disabled=true;historyOpen.disabled=false;setProgress(89);renderProjects()}
+function assignedCost(){return Object.keys(assignments).reduce((sum,id)=>sum+projects.find(p=>p.id===id).cost,0)}
+function rebalance(){const ids=Object.keys(assignments).sort();if(!ids.length)return;assignments[ids[0]]=projects.find(p=>p.id===ids[0]).recommended;if(ids.length===2){const second=projects.find(p=>p.id===ids[1]);assignments[ids[1]]=second.recommended===assignments[ids[0]]?(second.recommended==='도윤'?'태식':'도윤'):second.recommended}}
+function effect(project){return project.effects[project.answer===undefined?0:answers[project.answer]??0]}
+function toggleProject(id){$('plan-warning').textContent='';if(assignments[id]){delete assignments[id];rebalance();renderProjects();$('plan-context').textContent=`${planIntro()} 조감도에서 최대 두 곳을 고르세요.`;return}if(Object.keys(assignments).length>=2){$('plan-warning').textContent='이번 계획에서는 두 곳까지만 관리할 수 있습니다.';return}const project=projects.find(p=>p.id===id);if(assignedCost()+project.cost>300){$('plan-warning').textContent='예산이 부족합니다. 선택한 장소를 하나 해제해주세요.';return}assignments[id]='대기';rebalance();renderProjects();$('plan-context').textContent=`${project.name}: ${effect(project)}`}
+function renderProjects(){document.querySelectorAll('[data-spot]').forEach(spot=>{const person=assignments[spot.dataset.spot],project=projects.find(p=>p.id===spot.dataset.spot);spot.classList.toggle('on',Boolean(person));spot.setAttribute('aria-pressed',String(Boolean(person)));spot.querySelector('small').textContent=`1명 · ${project.cost}만 원`});const cost=assignedCost(),dId=Object.keys(assignments).find(id=>assignments[id]==='도윤'),tId=Object.keys(assignments).find(id=>assignments[id]==='태식');$('budget').textContent=`${300-cost}만 원`;$('doyun-state').textContent=dId?projects.find(p=>p.id===dId).name.replace(/ 정비| 표시| 정리/g,''):'배정 가능';$('taesik-state').textContent=tId?projects.find(p=>p.id===tId).name.replace(/ 정비| 표시| 정리/g,''):'배정 가능'}
+function styleCounts(){const counts={principle:0,relation:0,action:0};Object.entries(answers).forEach(([day,i])=>{const style=days[day].choices?.[i]?.style;if(style)counts[style]++});return counts}
+function renderStyle(){const counts=styleCounts(),center=[75,76],axes={principle:[75,14],relation:[18,116],action:[132,116]},point=key=>{const ratio=.28+.72*counts[key]/5,v=axes[key];return `${Math.round(center[0]+(v[0]-center[0])*ratio)},${Math.round(center[1]+(v[1]-center[1])*ratio)}`};$('style-shape').setAttribute('points',[point('principle'),point('relation'),point('action')].join(' '));const max=Math.max(...Object.values(counts)),names={principle:'원칙',relation:'관계',action:'실행'},leaders=Object.keys(counts).filter(key=>counts[key]===max).map(key=>names[key]);$('style-copy').textContent=`1막에서 도윤은 ${leaders.join('·')} 쪽에 조금 더 무게를 두었습니다. 정답이라기보다 무엇을 먼저 지켜왔는지 보여주는 기록입니다.`}
+function confirmPlan(){if(!Object.keys(assignments).length){$('plan-warning').textContent='적어도 한 곳은 골라보세요.';return}showPlanResult()}
+function showPlanResult(){const selected=Object.entries(assignments);hide();view='plan-result';chapter.textContent='2단계 · 관리 결과';stage.className='stage office';planResult.classList.remove('hidden');const list=$('summary-list');list.replaceChildren();selected.forEach(([id,person])=>{const project=projects.find(p=>p.id===id),item=document.createElement('div');item.className='summary-item';item.innerHTML=`<b>${project.name} · ${person} 담당</b><span>${effect(project)}</span>`;list.append(item)});const rest=document.createElement('div');rest.className='summary-item';rest.innerHTML=`<b>남은 예산 · ${300-assignedCost()}만 원</b><span>고르지 못한 공간은 다음 관리 계획에서 다시 검토합니다.</span>`;list.append(rest);setProgress(93);prev.disabled=true;historyOpen.disabled=false}
+function showActReview(){hide();view='act-review';chapter.textContent='3단계 · 1막 전체 회상';stage.className='stage office';actReview.classList.remove('hidden');renderStyle();setProgress(96);prev.disabled=true;historyOpen.disabled=false}
+function showEnding(){hide();view='ending';chapter.textContent='1막 · 끝';stage.className='stage exterior';doyun.classList.add('hidden');npc.classList.add('hidden');ending.classList.remove('hidden');setProgress(100);prev.disabled=true;historyOpen.disabled=false}
+function restart(){dayIndex=0;sceneIndex=0;postIndex=0;epiIndex=0;view='cover';selected=0;answers={};assignments={};log=[];hide();stage.className='stage exterior';cover.classList.remove('hidden');doyun.classList.add('hidden');npc.classList.add('hidden');chapter.textContent='프롤로그';setProgress(3);prev.disabled=true;historyOpen.disabled=true}
+$('start').addEventListener('click',renderMain);bubble.addEventListener('click',advance);stage.addEventListener('click',event=>{if(['main','post','epilogue'].includes(view)&&!event.target.closest('button,.bubble,.history'))advance()});$('next-day').addEventListener('click',nextDay);prev.addEventListener('click',goBack);historyOpen.addEventListener('click',openHistory);$('history-close').addEventListener('click',()=>history.classList.add('hidden'));document.querySelectorAll('[data-spot]').forEach(spot=>spot.addEventListener('click',()=>toggleProject(spot.dataset.spot)));$('confirm-plan').addEventListener('click',confirmPlan);$('review-open').addEventListener('click',showActReview);$('epilogue-open').addEventListener('click',()=>{epiIndex=0;renderEpilogue()});$('restart').addEventListener('click',restart);$('ending-restart').addEventListener('click',restart);
+document.addEventListener('click',()=>queueMicrotask(saveProgress));window.addEventListener('pagehide',saveProgress);if(loadProgress())showSavedView();
+console.assert(!document.getElementById('plan-bridge'),'관리계획 중간 페이지는 결과 화면과 통합되어야 합니다.');console.assert(!document.querySelector('#plan-result .style-head'),'관리 결과에는 1막 전체 성향을 섞지 않아야 합니다.');console.assert(document.querySelector('#act-review .style-head'),'별도의 1막 전체 회상 화면이 있어야 합니다.');console.assert(propsFor({text:'손바닥에 올려진 열쇠 꾸러미가 묵직했다.',place:'office'})[0][1]==='keys','열쇠 컷인이 연결되어야 합니다.');console.assert(propsFor({text:'서로 젖지 않게 우산을 밀어주었다.',place:'garden-rain'})[0][1]==='umbrella-back','우산 뒷모습 컷인이 연결되어야 합니다.');console.assert(!days[1].scenes.some(scene=>scene.role==='어제의 흔적'),'유모차 뒤 캡처 장면은 없어야 합니다.');console.assert(!document.getElementById('result-copy'),'일일 결과에는 별도 결과 상자가 없어야 합니다.');console.assert(document.querySelectorAll('[data-spot] small').length===5,'관리 사업 정보가 다섯 곳에 보여야 합니다.');console.assert(inferEmotion({text:'고마워요'})==='happy','표정 추론이 작동해야 합니다.');console.assert(days.length===7,'1막은 7일이어야 합니다.');console.assert(days.filter(day=>day.choices).length===5,'선택 사건은 다섯 개여야 합니다.');console.assert(days.filter(day=>!day.choices).length===2,'훈훈 사건은 두 개여야 합니다.');console.assert(days.every(day=>!day.choices||day.choices.length===3),'선택 사건마다 선택지 세 개가 필요합니다.');console.assert(projects.length===5&&projects.every(project=>project.cost>0),'관리 사업 다섯 개에 비용이 필요합니다.');
+})();
