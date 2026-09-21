@@ -1,4 +1,4 @@
-/* v1.3.1: 하루 호흡, 창 유형 구분, 컷인 비율, 결과 흐름 */
+/* v1.3.2: v1.3.1 흐름 유지, 모바일 결과 인물 위치 보정 */
 .day-break {
   position: absolute;
   inset: 0;
@@ -36,7 +36,7 @@
 .cutin-art.cat { width: 88%; height: auto; clip-path: inset(0 7% 0 0); }
 .cutin-art.bowls { left: 50%; width: 94%; height: auto; background-size: 188% auto; }
 
-.sheet-view.reflection-view:before { bottom: 95px; }
+.sheet-view.reflection-view:before { bottom: 45px; }
 .map { margin-bottom: 0; }
 .map:after { content: ""; position: absolute; right: 0; bottom: 0; left: 0; z-index: 3; height: 105px; background: linear-gradient(transparent,rgba(7,24,36,.72)); pointer-events: none; }
 .plan-actions { position: absolute; right: 12px; bottom: 12px; left: 12px; z-index: 4; margin: 0; }
@@ -46,7 +46,7 @@
 .result-sheet { width: 100%; max-height: 68%; overflow: auto; border-color: rgba(255,255,255,.26); background: color-mix(in srgb,var(--paper) 90%,transparent); backdrop-filter: blur(9px); }
 .advance-hint { margin-top: 13px!important; color: var(--teal)!important; font-size: 11px; text-align: center; }
 .sheet-view.review-view { display: flex; align-items: flex-end; overflow: hidden; background: linear-gradient(180deg,rgba(7,24,36,.08),rgba(7,24,36,.72)),url("../assets/1막_그래픽_v0.2/backgrounds/bg_office_v0.1.png") center/cover; }
-.review-view:before { content: ""; position: absolute; left: 52%; bottom: 205px; height: min(62dvh,510px); aspect-ratio: .75; background: url("../assets/1막_그래픽_v0.2/characters/doyun_sheet.png") 0 bottom/400% 100% no-repeat; filter: drop-shadow(0 18px 26px rgba(9,25,35,.44)); transform: translateX(-50%); }
+.review-view:before { content: ""; position: absolute; left: 52%; bottom: 70px; height: min(62dvh,510px); aspect-ratio: .75; background: url("../assets/1막_그래픽_v0.2/characters/doyun_sheet.png") 0 bottom/400% 100% no-repeat; filter: drop-shadow(0 18px 26px rgba(9,25,35,.44)); transform: translateX(-50%); }
 .review-view .sheet { position: relative; z-index: 2; width: 100%; max-height: 66%; overflow: auto; background: color-mix(in srgb,var(--paper) 91%,transparent); backdrop-filter: blur(9px); }
 
-@media(max-height:640px) { .sheet-view.reflection-view:before { bottom: 62px; } .review-view:before { bottom: 175px; height: 410px; } }
+@media(max-height:640px) { .sheet-view.reflection-view:before { bottom: 32px; } .review-view:before { bottom: 55px; height: 410px; } }
