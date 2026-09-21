@@ -31,6 +31,7 @@
 ### 신규
 
 - `HANDOFF_TO_GITHUB_MANAGER.md`
+- `assets/audio/LICENSE.txt`
 - `assets/audio/forget_me_not_looped.ogg`
 - `assets/1막_그래픽_v0.2/backgrounds/bg_corridor_v0.1.png`
 - `assets/1막_그래픽_v0.2/backgrounds/bg_exterior_v0.1.png`
@@ -111,6 +112,7 @@
 - 배포 폴더 루트 파일 제한, 자산 누락, 콘솔 오류 확인
 - v1.2.1 저장 기록 백업, v1.3.1 자동 저장, 새로고침 후 이어보기 확인
 - 첫 사용자 입력 뒤 배경음악 재생, 반복 재생, 음악 켜기·끄기와 음량 설정 확인
+- GitHub Pages 배포용 배경음악을 원곡과 재생 길이는 유지한 채 32 kHz 모노 OGG로 최적화
 
 ### 알려진 문제
 
