@@ -1,13 +1,30 @@
 {
   "schema": 2,
-  "version": "v1.3.2",
-  "dayIndex": 0,
+  "version": "v1.4.0",
+  "dayIndex": 7,
   "sceneIndex": 0,
   "postIndex": 0,
+  "afterIndex": 0,
   "epiIndex": 0,
-  "view": "cover",
+  "view": "day-break",
   "selected": 0,
   "answers": {},
-  "assignments": {},
-  "log": []
+  "assignments": {
+    "A": "태식",
+    "B": "도윤"
+  },
+  "log": [],
+  "managementAct": 2,
+  "storyState": {
+    "currentAct": 2,
+    "act2Started": true,
+    "act2Assignments": {},
+    "facilityLevels": {
+      "corridor_storage": 1,
+      "community_room": 1,
+      "loading_zone": 0,
+      "feeding_station": 0,
+      "lobby_hub": 0
+    }
+  }
 }
