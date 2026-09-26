@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>오늘도 관리사무소 · v1.4.0</title>
-<link rel="stylesheet" href="css/game.css">
+<title>오늘도 관리사무소 · v1.4.1</title>
+<link rel="stylesheet" href="css/game.css?v=1.4.1">
 <link rel="stylesheet" href="css/v1.3.1.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
   <header class="top">
     <div class="brand"><strong>오늘도 관리사무소</strong><small id="act-name">1막 · 처음 만난 사람들</small></div><span class="badge" id="chapter">프롤로그</span>
     <div class="progress" role="progressbar" aria-label="1막 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="3"><span id="progress"></span></div>
-    <div class="tools"><button class="tool" id="prev" type="button" disabled>이전 장면</button><button class="tool" id="audio-toggle" type="button" aria-pressed="true">음악 끄기</button><button class="tool" id="history-open" type="button" disabled>지나온 대화</button><button class="tool" id="act2-restart" type="button">2막 처음부터</button></div>
+    <div class="tools"><button class="tool" id="prev" type="button" disabled>이전 장면</button><button class="tool" id="audio-toggle" type="button" aria-pressed="true">음악 끄기</button><button class="tool" id="history-open" type="button" disabled>지나온 대화</button></div>
   </header>
   <section class="stage exterior" id="stage" aria-live="polite">
     <section class="cover" id="cover"><small>ACT 1 · FIRST WEEK</small><h1>처음 만난 사람들</h1><p>라이프아파트의 새 관리소장 도윤.<br>첫 일주일이 시작됩니다.</p><div class="route"><span>주민의 말을 듣고</span><span>세 가지 방법 중 하나를 고르고</span><span>한정된 예산으로 공간을 바꿉니다</span></div><button class="button" id="start" type="button">관리사무소 문을 연다</button></section>
@@ -32,6 +32,6 @@
 </main>
 <audio id="bgm" src="assets/audio/forget_me_not_looped.ogg" loop preload="auto"></audio>
 <script src="js/act2-data.js"></script>
-<script src="js/game.js"></script>
+<script src="js/game.js?v=1.4.1"></script>
 </body>
 </html>
