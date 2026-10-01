@@ -1,0 +1,11 @@
+/* Local dry-evening edits preserve each lobby's facility stage. */
+.stage.early-evening.office{--early-art:url('../assets/early-weather/office-evening.webp')}
+.stage.early-evening.facility-e-0{--early-art:url('../assets/early-weather/lobby-0-evening.webp')}
+.stage.early-evening.facility-e-1{--early-art:url('../assets/early-weather/lobby-1-evening.webp')}
+.stage.early-evening.facility-e-2{--early-art:url('../assets/early-weather/lobby-2-evening.webp')}
+.stage.early-rain.office{--early-art:url('../assets/act4-weather/office-rain-day.webp')}
+.stage.early-evening,.stage.early-rain{background-image:var(--early-art)}
+.stage.early-evening .cutin-backdrop,.stage.early-rain .cutin-backdrop{background-image:var(--early-art)}
+.stage.early-evening .reflection-view,.stage.early-rain .reflection-view{background-image:linear-gradient(180deg,rgba(9,25,35,.12),rgba(9,25,35,.68)),var(--early-art)}
+
+.stage.early-rain .ending{background-image:linear-gradient(180deg,rgba(8,24,36,.24),rgba(8,30,42,.86)),var(--early-art)}

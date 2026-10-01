@@ -1,11 +1,11 @@
 (()=>{
 const s=(speaker,role,who,npc,text,extra={})=>({speaker,role,who,npc,text,...extra});
 const characterRoot='assets/1막_그래픽_v0.2/characters/';
-const characterFiles={'도윤':'doyun_sheet.png','강태식':'security_sheet.png','한명숙':'grandma_sheet.png','이준호':'male2_sheet.png','정서연':'schoolgirl_sheet.png','오지혜':'female2_sheet.png','임성호':'male1_sheet.png','박선우':'chairman_sheet.png','윤정희':'female1_sheet.png'};
+const characterFiles={'도윤':'doyun_sheet.webp','강태식':'security_sheet.webp','한명숙':'grandma_sheet.webp','이준호':'male2_sheet.webp','정서연':'schoolgirl_sheet.webp','오지혜':'female2_sheet.webp','임성호':'male1_sheet.webp','박선우':'chairman_sheet.webp','윤정희':'female1_sheet.webp'};
 const aliases={'태식':'강태식','명숙':'한명숙','준호':'이준호','서연':'정서연','지혜':'오지혜','성호':'임성호','선우':'박선우','정희':'윤정희'};
 const emotionPosition={neutral:'0% bottom',angry:'33.333% bottom',happy:'66.667% bottom',sad:'100% bottom'},emotionIndex={neutral:0,angry:1,happy:2,sad:3};
 const characterFrame={'도윤':[.75,[69.43,57.46,44.38,33.24]],'박선우':[.75,[70.53,55.16,47.24,35.36]],'강태식':[.4442,[50.84,53.59,53.71,47.13]],'한명숙':[.4442,[58.25,59.69,48.92,54.67]],'이준호':[.4442,[58.97,54.67,48.09,54.31]],'정서연':[.4442,[58.97,51.91,48.92,52.15]],'오지혜':[.4442,[62.2,52.87,53.35,40.91]],'임성호':[.4442,[58.13,50,50,47.49]],'윤정희':[.4442,[61.84,55.26,54.55,48.68]]};
-function paintFigure(element,name,emotion='neutral'){const canonical=aliases[name]||name,file=characterFiles[canonical],frame=characterFrame[canonical]||[.4442,[58,58,58,58]],index=emotionIndex[emotion]??0;if(canonical==='점검 기사'){element.style.backgroundImage='url("assets/3막_신규/technician_user_v1.0.png")';element.style.backgroundSize='100% 100%';element.style.backgroundPosition='center bottom';element.style.setProperty('--frame-ratio',2/3);element.style.setProperty('--focus','-50%');element.setAttribute('aria-label',canonical);return}element.style.backgroundSize='';element.style.backgroundImage=file?`url("${characterRoot}${file}")`:'';element.style.backgroundPosition=emotionPosition[emotion]||emotionPosition.neutral;element.style.setProperty('--frame-ratio',frame[0]);element.style.setProperty('--focus',`-${frame[1][index]}%`);element.setAttribute('aria-label',canonical)}
+function paintFigure(element,name,emotion='neutral'){const canonical=aliases[name]||name,file=characterFiles[canonical],frame=characterFrame[canonical]||[.4442,[58,58,58,58]],index=emotionIndex[emotion]??0;if(canonical==='점검 기사'){element.style.backgroundImage='url("assets/3막_신규/technician_user_v1.0.webp")';element.style.backgroundSize='100% 100%';element.style.backgroundPosition='center bottom';element.style.setProperty('--frame-ratio',2/3);element.style.setProperty('--focus','-50%');element.setAttribute('aria-label',canonical);return}element.style.backgroundSize='';element.style.backgroundImage=file?`url("${characterRoot}${file}")`:'';element.style.backgroundPosition=emotionPosition[emotion]||emotionPosition.neutral;element.style.setProperty('--frame-ratio',frame[0]);element.style.setProperty('--focus',`-${frame[1][index]}%`);element.setAttribute('aria-label',canonical)}
 function inferEmotion(scene){const text=scene.text||'';if(/고마워|괜찮아요|새잎|잘 부탁|같이 가세요/.test(text))return'happy';if(/죄송|모르겠|힘들|위험|넘어질|배고픈|걱정|젖/.test(text))return'sad';if(/금지|책임|바로 빼|통하지 않|지금처럼 둘 수/.test(text))return'angry';return'neutral'}
 const reactionCopy={'도윤':'상황을 조용히 살핀다','강태식':'현장을 살핀다','한명숙':'상대의 말을 듣는다','이준호':'통로를 바라본다','정서연':'조용히 듣는다','오지혜':'생활 시간을 떠올린다','임성호':'설명을 기다린다','박선우':'기준을 따져본다','윤정희':'걱정스레 지켜본다'};
 const days=[
@@ -133,7 +133,7 @@ s('도윤','관리소장','doyun','강태식','“통행과 위생을 확보한 
 {label:'주민 의견 전까지 임시 기준을 만든다.',sub:'당장 지킬 선을 만들고 논의를 연다.',style:'relation',result:'급식 시간과 청소 담당이 정해졌다. 의견이 모일 때까지 정희와 태식이 상태를 기록한다.',thought:'결론을 미루는 대신, 그동안 아무렇게나 두지 않을 약속을 만들었다.',post:[s('도윤','관리소장','doyun','윤정희','“주민 의견을 받는 동안 출입구에서는 치우고, 임시 위치와 급식 시간을 정하겠습니다.”',{others:['선우']}),s('박선우','입주자대표','npc','박선우','“찬성과 반대만 묻지 말고, 걱정되는 점도 함께 받죠.”'),s('윤정희','단지 주민','npc','윤정희','“청소 기록과 고양이가 오는 시간은 제가 적겠습니다.”',{others:['선우']}),s('강태식','경비반장','npc','강태식','“저는 통행과 습기 상태를 같이 보겠습니다. 임시라는 말이 방치가 되면 안 되니까요.”',{others:['정희','선우']})]}]}
 ];
 const ACT1_DAYS=7;
-days.push(...(window.ACT2_DAYS||[]),...(window.ACT3_DAYS||[]));
+days.push(...(window.ACT2_DAYS||[]),...(window.ACT3_DAYS||[]),...(window.ACT4_DAYS||[]),...(window.ACT5_DAYS||[]));
 const firstDayScene=days[0].scenes.findIndex(scene=>!scene.chapter);
 const projects=[
 {id:'A',name:'복도 안전 정비',cost:80,recommended:'태식',answer:0,effects:['세대 안 보관 부담을 줄이면서 복도 금지 기준을 유지할 정식 보관 공간을 만듭니다.','임시 보관선을 실제 이용량에 맞는 고정 공간으로 바꿉니다.','주민이 합의한 위치와 이용 기준을 정식 보관 공간에 적용합니다.']},
@@ -166,12 +166,16 @@ s('강태식','경비반장','npc','강태식','“여기까지 올라왔었나�
 ];
 const $=id=>document.getElementById(id),stage=$('stage'),cover=$('cover'),dayBreak=$('day-break'),propLayer=$('prop-layer'),doyun=$('doyun'),doyunFigure=$('doyun-figure'),npc=$('npc'),npcFigure=$('npc-figure'),npcName=$('npc-name'),reaction=$('reaction'),bubble=$('bubble'),speaker=$('speaker'),role=$('role'),line=$('line'),choices=$('choices'),choiceList=$('choice-list'),reflection=$('reflection'),management=$('management'),planResult=$('plan-result'),actReview=$('act-review'),ending=$('ending'),history=$('history'),historyList=$('history-list'),chapter=$('chapter'),progress=$('progress'),progressbar=document.querySelector('.progress'),prev=$('prev'),historyOpen=$('history-open'),bgm=$('bgm'),audioToggle=$('audio-toggle');
 let dayIndex=0,sceneIndex=0,postIndex=0,afterIndex=0,resultIntroIndex=0,epiIndex=0,view='cover',selected=0,answers={},assignments={},act2Assignments={},managementAct=1,endingMode=2,log=[];
-const STORAGE_KEY='office_act3_local_review_v1',LEGACY_BACKUP_KEY='office_act3_review_legacy',AUDIO_KEY='office_act3_review_audio';
-let audioEnabled=localStorage.getItem(AUDIO_KEY)!=='false';
+let storageIssue='';
+let storageReadable=true;
+function readStored(key){try{return localStorage.getItem(key)}catch(error){storageReadable=false;storageIssue='브라우저 저장을 읽을 수 없습니다. 파일 내보내기로 진행을 보관해주세요.';return null}}
+function writeStored(key,value){try{localStorage.setItem(key,value)}catch(error){storageIssue='브라우저에 저장하지 못했습니다. 파일 내보내기로 진행을 보관해주세요.';throw error}}
+const STORAGE_KEY='office_campaign_release_v1',LEGACY_BACKUP_KEY='office_campaign_release_legacy',AUDIO_KEY='office_campaign_release_audio';
+let audioEnabled=readStored(AUDIO_KEY)!=='false';
 bgm.volume=.4;
 function syncAudio(){audioToggle.textContent=audioEnabled?'음악 끄기':'음악 켜기';audioToggle.setAttribute('aria-pressed',String(audioEnabled))}
 function startAudio(){if(audioEnabled&&bgm.paused)bgm.play().catch(()=>{})}
-function toggleAudio(){audioEnabled=!audioEnabled;localStorage.setItem(AUDIO_KEY,String(audioEnabled));if(audioEnabled)startAudio();else bgm.pause();syncAudio()}
+function toggleAudio(){audioEnabled=!audioEnabled;try{writeStored(AUDIO_KEY,String(audioEnabled))}catch(error){}if(audioEnabled)startAudio();else bgm.pause();syncAudio()}
 function baseFacilityLevel(id){return assignments[id]?1:0}
 function facilityLevel(id){return Math.min(2,baseFacilityLevel(id)+(act2Assignments[id]?1:0))}
 function facilityLevels(){return Object.fromEntries(Object.entries(facilityKeys).map(([id,key])=>[key,facilityLevel(id)]))}
@@ -183,8 +187,8 @@ function act2Budget(){const planSpent=assignedCost(act2Assignments),incident=inc
 function roomUse(){return['전용 무더위·안전 쉼터','주민 운영 모임이 주별로 결정','칸막이형 쉼터·활동실'][answers[14]??0]}
 function storyState(){return{currentAct:dayIndex<ACT1_DAYS?1:2,act2Started:dayIndex>=ACT1_DAYS,act2Assignments,facilityLevels:facilityLevels(),actStyleCounts:{act1:styleCounts(1),act2:styleCounts(2)},act2Budget:act2Budget(),dayResults:{day8:answers[7]===undefined?null:{choice:days[7].choices[answers[7]].style},day9:answers[8]===undefined?null:{choice:days[8].choices[answers[8]].style,junhoMyeongsookTrust:1},day10:dayIndex>9?{frozenBoxSaved:true,junhoSeonghoTrust:1}:null,day11:dayIndex>10?{snackUntouched:true,lastPatrolLog:'02:10'}:null,day12:answers[11]===undefined?null:{choice:days[11].choices[answers[11]].style,taesikResting:true},day13:answers[12]===undefined?null:{choice:days[12].choices[answers[12]].style,feedingOperationDefined:true},day14:dayIndex>13?{practiceResumed:true,seoyeonJihyeTrust:1}:null,day15:answers[14]===undefined?null:{choice:days[14].choices[answers[14]].style,communityRoomOperationDefined:true,moistureSpreadSuspected:true}},flags:{infrastructureInspectionNeeded:answers[14]!==undefined},relationships:{junhoMyeongsookTrust:dayIndex>8?1:0,junhoSeonghoTrust:dayIndex>9?1:0,seoyeonJihyeTrust:dayIndex>13?1:0},carryoverBudget:act2Budget().available}}
 function progressSnapshot(){return{schema:2,version:'v1.4.1',dayIndex,sceneIndex,postIndex,afterIndex,resultIntroIndex,epiIndex,view,selected,answers,assignments,log,managementAct,storyState:storyState()}}
-function saveProgress(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const current=JSON.parse(raw);if(current&&typeof current.idx==='number'&&!localStorage.getItem(LEGACY_BACKUP_KEY))localStorage.setItem(LEGACY_BACKUP_KEY,raw)}localStorage.setItem(STORAGE_KEY,JSON.stringify(progressSnapshot()))}catch(error){console.warn('진행 저장 실패',error)}}
-function loadProgress(){try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));if(!saved||saved.schema!==2)return false;if(saved.view==='main'&&['act3-local-review-1','act3-local-review-2'].includes(saved.version)){let i=saved.sceneIndex||0;if(saved.version==='act3-local-review-1'){if(saved.dayIndex===15)i+=Number(i>=1)+Number(i>=9);if(saved.dayIndex===16)i+=Number(i>=8);if(saved.dayIndex===18)i+=Number(i>=16)}if(saved.dayIndex===15)i+=Number(i>=7);if(saved.dayIndex===16)i+=Number(i>=35);if(saved.dayIndex===17)i+=Number(i>=4);saved.sceneIndex=i}dayIndex=Math.min(Math.max(Number(saved.dayIndex)||0,0),days.length-1);sceneIndex=Math.max(Number(saved.sceneIndex)||0,0);postIndex=Math.max(Number(saved.postIndex)||0,0);afterIndex=Math.max(Number(saved.afterIndex)||0,0);resultIntroIndex=Math.max(Number(saved.resultIntroIndex)||0,0);epiIndex=Math.max(Number(saved.epiIndex)||0,0);view=saved.view||'cover';selected=Math.max(Number(saved.selected)||0,0);answers=saved.answers||{};assignments=saved.assignments||{};act2Assignments=saved.storyState?.act2Assignments||{};managementAct=Number(saved.managementAct)||((dayIndex>=ACT1_DAYS)?2:1);log=Array.isArray(saved.log)?saved.log:[];return true}catch(error){console.warn('기존 진행을 불러오지 못했습니다.',error);return false}}
+function saveProgress(){try{const raw=readStored(STORAGE_KEY);if(raw){const current=JSON.parse(raw);if(current&&typeof current.idx==='number'&&!readStored(LEGACY_BACKUP_KEY))writeStored(LEGACY_BACKUP_KEY,raw)}writeStored(STORAGE_KEY,JSON.stringify(progressSnapshot()))}catch(error){console.warn('진행 저장 실패',error)}}
+function loadProgress(){try{const saved=JSON.parse(readStored(STORAGE_KEY));if(!saved||saved.schema!==2)return false;dayIndex=Math.min(Math.max(Number(saved.dayIndex)||0,0),days.length-1);sceneIndex=Math.max(Number(saved.sceneIndex)||0,0);postIndex=Math.max(Number(saved.postIndex)||0,0);afterIndex=Math.max(Number(saved.afterIndex)||0,0);resultIntroIndex=Math.max(Number(saved.resultIntroIndex)||0,0);epiIndex=Math.max(Number(saved.epiIndex)||0,0);view=saved.view||'cover';selected=Math.max(Number(saved.selected)||0,0);answers=saved.answers||{};assignments=saved.assignments||{};act2Assignments=saved.storyState?.act2Assignments||{};managementAct=Number(saved.managementAct)||((dayIndex>=ACT1_DAYS)?2:1);log=Array.isArray(saved.log)?saved.log:[];return true}catch(error){console.warn('기존 진행을 불러오지 못했습니다.',error);return false}}
 function setActHeader(){const act=dayIndex<ACT1_DAYS?1:2;$('act-name').textContent=act===1?'1막 · 처음 만난 사람들':'2막 · 이름 뒤의 사정';progressbar.setAttribute('aria-label',`${act}막 진행률`)}
 function facilityPlace(id){return`facility-${id.toLowerCase()}-${facilityLevel(id)}`}
 function resolve(scene){const level=scene.facility?facilityLevel(scene.facility):0,rawPlace=scene.place||days[dayIndex]?.place||'office',place=scene.facility?facilityPlace(scene.facility):/^facility-[a-e]$/.test(rawPlace)?facilityPlace(rawPlace.at(-1).toUpperCase()):rawPlace;return{...scene,text:scene.textByLevel?.[level]||scene.textByDay1?.[answers[0]??0]||scene.text,place}}
@@ -193,10 +197,11 @@ function hide(){[cover,dayBreak,bubble,choices,reflection,management,planResult,
 function setProgress(n){progress.style.width=`${Math.max(0,Math.min(100,n))}%`;progressbar.setAttribute('aria-valuenow',String(Math.round(n)))}
 function actProgress(fraction=0){const local=dayIndex<ACT1_DAYS?dayIndex+fraction:dayIndex-ACT1_DAYS+fraction,total=dayIndex<ACT1_DAYS?ACT1_DAYS:days.length-ACT1_DAYS;return 6+Math.round(local/total*78)}
 function propsFor(scene){const text=scene.text||'',rules=[];if(scene.cutin)rules.push(['full',scene.cutin]);if(/손바닥에 올려진 열쇠 꾸러미/.test(text))rules.push(['full','keys']);if(/복도 한편에 쌍둥이용 유모차/.test(text))rules.push(['daily','stroller']);if(/비에 젖은 택배 상자/.test(text))rules.push(['daily','parcel']);if(/연습 시간과 소음 방지 수칙|같은 연습표/.test(text))rules.push(['life','schedule']);if(/서로 젖지 않게 우산/.test(text))rules.push(['full','umbrella-back']);if(/사탕 봉지/.test(text))rules.push(['life','candy']);if(/승용차 한 대가 진입로/.test(text))rules.push(['life','car']);if(/바닥에 임시 보관선을|임시 표지를 세웠다|줄자의 양끝/.test(text))rules.push(['care','line-kit']);if(/달력 구석에.*물방울/.test(text))rules.push(['life','plant']);if(/차량 아래로 재빨리 사라지는 고양이/.test(text))rules.push(['care','cat']);if(/밥그릇 주변.*사료|젖은 사료를 치우는/.test(text))rules.push(['care','bowls']);return rules}
-function renderProps(scene){const rules=propsFor(scene);propLayer.replaceChildren();if(!rules.length)return false;const key=rules[0][1],full=['keys','umbrella-back','dinosaur-bottle','frozen-parcel','snack-note','water-stain','old-photo','technician'].includes(key),cutin=document.createElement('div'),backdrop=document.createElement('span'),specialBackdrop=key==='keys'?'keys-hand':key==='umbrella-back'?'umbrella-back':'';cutin.className='cutin';backdrop.className=`cutin-backdrop ${specialBackdrop||scene.place}`;cutin.append(backdrop);if(key.startsWith('act3-'))renderAct3Cutin(cutin,key);else if(full){const photo=document.createElement('span');photo.className=`cutin-photo ${key==='keys'?'keys-hand':key}`;cutin.append(photo)}else rules.slice(0,2).forEach(([atlas,name])=>{const item=document.createElement('span');item.className=`cutin-art ${atlas} ${name}`;cutin.append(item)});propLayer.append(cutin);return true}
-function setCharacter(scene){doyun.className='character left hidden';npc.className='character right hidden';const mood=scene.emotion||inferEmotion(scene);if(scene.who==='doyun'){doyun.classList.remove('hidden');doyun.classList.add('speaking');paintFigure(doyunFigure,'도윤',scene.doyunEmotion||mood)}else if(scene.who==='npc'){npc.classList.remove('hidden');npc.classList.add('speaking');paintFigure(npcFigure,scene.npc,mood);npcName.textContent=scene.npc}const explicit=[...(scene.others||[])],names=explicit.length?(scene.who==='doyun'?[scene.npc,...explicit]:scene.who==='npc'?(explicit.length<2?['도윤',...explicit]:explicit):[scene.npc,...explicit]):[];const visible=names.map(name=>aliases[name]||name).filter((name,index,list)=>name&&list.indexOf(name)===index).slice(0,2);reaction.replaceChildren();reaction.className=`reaction ${scene.who==='npc'?'left':'right'}`;visible.forEach(name=>{const item=document.createElement('div'),portrait=document.createElement('div'),figure=document.createElement('div'),copy=document.createElement('div'),strong=document.createElement('strong'),span=document.createElement('span');item.className='reaction-person';portrait.className='reaction-portrait';figure.className='reaction-figure';copy.className='reaction-copy';strong.textContent=name;span.textContent=reactionCopy[name]||'장면을 지켜본다';paintFigure(figure,name);portrait.append(figure);copy.append(strong,span);item.append(portrait,copy);reaction.append(item)});reaction.classList.toggle('hidden',!visible.length)}
-function renderDialogue(scene,label,percent){hide();setActHeader();scene=resolve(scene);chapter.textContent=scene.chapter||label;stage.className=`stage ${scene.place}`;const hasCutin=renderProps(scene);stage.classList.toggle('cutin-on',hasCutin);setCharacter(hasCutin?{...scene,who:'none',others:[]}:scene);bubble.className=`bubble ${scene.who==='doyun'?'right':scene.who==='npc'?'left':'narration'}`;speaker.textContent=scene.who==='none'?'':scene.speaker;role.textContent=scene.who==='none'?'':scene.role;line.textContent=scene.text;bubble.classList.remove('hidden');setProgress(percent);prev.disabled=view==='main'&&sceneIndex===0;historyOpen.disabled=false}
-function showDayBreak(){hide();view='day-break';setActHeader();const day=days[dayIndex],place=day.place.startsWith('facility-')?facilityPlace(day.place.at(-1).toUpperCase()):day.place;chapter.textContent=`${day.day} · 시작`;stage.className=`stage ${place}`;$('day-break-kicker').textContent=`DAY ${dayIndex+1}`;$('day-break-day').textContent=day.day;$('day-break-title').textContent=day.title;dayBreak.querySelector('span').textContent=dayIndex===ACT1_DAYS?'이름 뒤의 사정을 마주하는 두 번째 주가 시작됩니다.':'새로운 하루가 시작됩니다.';dayBreak.classList.remove('hidden');doyun.classList.add('hidden');npc.classList.add('hidden');setProgress(actProgress());prev.disabled=true;historyOpen.disabled=dayIndex===0&&!log.length}
+function renderProps(scene){const rules=propsFor(scene);propLayer.replaceChildren();if(!rules.length)return false;const key=rules[0][1],full=['keys','umbrella-back','dinosaur-bottle','frozen-parcel','snack-note','water-stain','old-photo','technician','finale-umbrellas','finale-new-leaf','story-handover-plan','story-management-log','detail-printed-notice','detail-duty-phone','detail-dry-supplies','detail-untagged-umbrellas'].includes(key),cutin=document.createElement('div'),backdrop=document.createElement('span'),specialBackdrop=key==='keys'?'keys-hand':key==='umbrella-back'?'umbrella-back':'';cutin.className='cutin';backdrop.className=`cutin-backdrop ${specialBackdrop||scene.place}`;cutin.append(backdrop);if(key.startsWith('act3-'))renderAct3Cutin(cutin,key);else if(full){const photo=document.createElement('span');photo.className=`cutin-photo ${key==='keys'?'keys-hand':key}`;if(key.startsWith('detail-')){photo.setAttribute('role','img');photo.setAttribute('aria-label',{'detail-printed-notice':'우산 곁의 출력된 주민 안내문','detail-duty-phone':'인계 기록 옆 관리사무소 전화','detail-dry-supplies':'마른 탁자에 정리된 수건과 물품','detail-untagged-umbrellas':'이름표 없이 우산꽂이에 남은 여러 색 우산'}[key]);}if(key.startsWith('story-')){photo.setAttribute('role','img');photo.setAttribute('aria-label',key==='story-handover-plan'?'책상 위에 펼쳐진 도면과 인계 메모':'펼쳐진 관리일지와 다음 점검 목록');}cutin.append(photo)}else rules.slice(0,2).forEach(([atlas,name])=>{const item=document.createElement('span');item.className=`cutin-art ${atlas} ${name}`;cutin.append(item)});propLayer.append(cutin);return true}
+function setCharacter(scene){doyun.className='character left hidden';npc.className='character right hidden';const mood=scene.emotion||inferEmotion(scene);if(scene.who==='none'&&scene.visualCast?.length){const [left,right]=scene.visualCast;doyun.classList.remove('hidden');paintFigure(doyunFigure,left,scene.visualEmotion||'neutral');if(right){npc.classList.remove('hidden');paintFigure(npcFigure,right,scene.visualEmotion||'neutral');npcName.textContent=right}stage.classList.add('story-tableau');stage.classList.toggle('story-tableau-single',!right)}if(scene.who==='doyun'){doyun.classList.remove('hidden');doyun.classList.add('speaking');paintFigure(doyunFigure,'도윤',scene.doyunEmotion||mood)}else if(scene.who==='npc'){npc.classList.remove('hidden');npc.classList.add('speaking');paintFigure(npcFigure,scene.npc,mood);npcName.textContent=scene.npc}const explicit=[...(scene.others||[])],names=explicit.length?(scene.who==='doyun'?[scene.npc,...explicit]:scene.who==='npc'?(explicit.length<2?['도윤',...explicit]:explicit):[scene.npc,...explicit]):[];const visible=names.map(name=>aliases[name]||name).filter((name,index,list)=>name&&list.indexOf(name)===index).slice(0,2);reaction.replaceChildren();reaction.className=`reaction ${scene.who==='npc'?'left':'right'}`;visible.forEach(name=>{const item=document.createElement('div'),portrait=document.createElement('div'),figure=document.createElement('div'),copy=document.createElement('div'),strong=document.createElement('strong'),span=document.createElement('span');item.className='reaction-person';portrait.className='reaction-portrait';figure.className='reaction-figure';copy.className='reaction-copy';strong.textContent=name;span.textContent=reactionCopy[name]||'장면을 지켜본다';paintFigure(figure,name);portrait.append(figure);copy.append(strong,span);item.append(portrait,copy);reaction.append(item)});reaction.classList.toggle('hidden',!visible.length)}
+function weatherClasses(scene){if(scene?.atmosphere)return ' '+scene.atmosphere;const w=scene?.weather;return w?` act4-weather weather-${w.time} rain-${w.rain}`:''}
+function renderDialogue(scene,label,percent){hide();setActHeader();scene=resolve(scene);chapter.textContent=scene.chapter||label;stage.className=`stage ${scene.place}${weatherClasses(scene)}`;const hasCutin=renderProps(scene);stage.classList.toggle('cutin-on',hasCutin);setCharacter(hasCutin?{...scene,who:'none',others:[],visualCast:[]}:scene);bubble.className=`bubble ${scene.who==='doyun'?'right':scene.who==='npc'?'left':'narration'}`;speaker.textContent=scene.who==='none'?'':scene.speaker;role.textContent=scene.who==='none'?'':scene.role;line.textContent=scene.text;bubble.classList.remove('hidden');setProgress(percent);prev.disabled=view==='main'&&sceneIndex===0;historyOpen.disabled=false}
+function showDayBreak(){hide();view='day-break';setActHeader();const day=days[dayIndex],place=day.place.startsWith('facility-')?facilityPlace(day.place.at(-1).toUpperCase()):day.place;chapter.textContent=`${day.day} · 시작`;stage.className=`stage ${place}${weatherClasses(day.scenes[0])}`;$('day-break-kicker').textContent=`DAY ${dayIndex+1}`;$('day-break-day').textContent=day.day;$('day-break-title').textContent=day.title;dayBreak.querySelector('span').textContent=dayIndex===ACT1_DAYS?'이름 뒤의 사정을 마주하는 두 번째 주가 시작됩니다.':'새로운 하루가 시작됩니다.';dayBreak.classList.remove('hidden');doyun.classList.add('hidden');npc.classList.add('hidden');setProgress(actProgress());prev.disabled=true;historyOpen.disabled=dayIndex===0&&!log.length}
 function renderMain(){view='main';const day=days[dayIndex];renderDialogue(day.scenes[sceneIndex],`${day.day} · ${day.type}`,actProgress(sceneIndex/day.scenes.length))}
 function renderPost(){view='post';const day=days[dayIndex],choice=day.choices[selected];renderDialogue(choice.post[postIndex],`${day.day} · 선택 이후`,actProgress(.82));prev.disabled=false}
 function renderAfter(){view='after';const day=days[dayIndex];renderDialogue(day.after[afterIndex],`${day.day} · 남은 흔적`,actProgress(.9));prev.disabled=false}
@@ -208,9 +213,9 @@ function renderEpilogue(){view='epilogue';const scenes=activeEpilogue();renderDi
 function currentScene(){if(view==='main')return resolve(days[dayIndex].scenes[sceneIndex]);if(view==='post')return resolve(days[dayIndex].choices[selected].post[postIndex]);if(view==='after')return resolve(days[dayIndex].after[afterIndex]);if(view==='result-intro')return resolve(activeResultIntro()[resultIntroIndex]);if(view==='epilogue')return resolve(activeEpilogue()[epiIndex])}
 function logScene(scene){if(!scene)return;const key=`${view}-${dayIndex}-${scene.speaker}-${scene.text}`;if(log.some(item=>item.key===key))return;log.push({key,label:`${scene.who==='none'?'장면':scene.speaker} · ${scene.role}`,text:scene.text})}
 function advance(){logScene(currentScene());if(view==='main'){const day=days[dayIndex];if(sceneIndex<day.scenes.length-1){sceneIndex++;if(dayIndex===0&&sceneIndex===firstDayScene)showDayBreak();else renderMain()}else if(day.choices)showChoices();else if(day.skipReflection)nextDay();else showReflection(day.result,day.thought)}else if(view==='post'){const day=days[dayIndex],post=day.choices[selected].post;if(postIndex<post.length-1){postIndex++;renderPost()}else if(day.after?.length){afterIndex=0;renderAfter()}else{const choice=day.choices[selected];showReflection(choice.result,choice.thought)}}else if(view==='after'){const day=days[dayIndex];if(afterIndex<day.after.length-1){afterIndex++;renderAfter()}else{const choice=day.choices[selected];showReflection(choice.result,choice.thought)}}else if(view==='result-intro'){const scenes=activeResultIntro();if(resultIntroIndex<scenes.length-1){resultIntroIndex++;renderResultIntro()}else showPlanResult()}else if(view==='epilogue'){const scenes=activeEpilogue();if(epiIndex<scenes.length-1){epiIndex++;renderEpilogue()}else showEnding(managementAct===1?2:3)}}
-function showChoices(){hide();view='choices';setActHeader();const day=days[dayIndex],place=resolve(day.scenes.at(-1)).place;chapter.textContent=`${day.day} · 선택`;stage.className=`stage ${place}`;doyun.className='character left speaking';npc.className='character right hidden';paintFigure(doyunFigure,'도윤','neutral');choiceList.replaceChildren();day.choices.forEach((choice,i)=>{const button=document.createElement('button');button.type='button';button.className=`choice ${choice.style}`;const strong=document.createElement('strong'),small=document.createElement('small');strong.textContent=choice.label;small.textContent=choice.sub;button.append(strong,small);button.addEventListener('click',()=>choose(i));choiceList.append(button)});choices.classList.remove('hidden');prev.disabled=false;historyOpen.disabled=false}
+function showChoices(){hide();view='choices';setActHeader();const day=days[dayIndex],place=resolve(day.scenes.at(-1)).place;chapter.textContent=`${day.day} · 선택`;stage.className=`stage ${place}${weatherClasses(day.scenes.at(-1))}`;doyun.className='character left speaking';npc.className='character right hidden';paintFigure(doyunFigure,'도윤','neutral');choiceList.replaceChildren();day.choices.forEach((choice,i)=>{const button=document.createElement('button');button.type='button';button.className=`choice ${choice.style}`;const strong=document.createElement('strong'),small=document.createElement('small');strong.textContent=choice.label;small.textContent=choice.sub;button.append(strong,small);button.addEventListener('click',()=>choose(i));choiceList.append(button)});choices.classList.remove('hidden');prev.disabled=false;historyOpen.disabled=false}
 function choose(i){selected=i;answers[dayIndex]=i;postIndex=0;afterIndex=0;const day=days[dayIndex],choice=day.choices[i],key=`choice-${dayIndex}`;log=log.filter(item=>item.key!==key);log.push({key,label:`${day.day} · 도윤의 선택`,text:choice.label,choice:true});renderPost()}
-function showReflection(resultText,thoughtText){hide();view='reflection';setActHeader();const day=days[dayIndex];chapter.textContent=`${day.day} · 결과`;stage.className='stage office';$('reflection-type').textContent=day.type;$('reflection-title').textContent=day.title;$('reflection-sub').textContent=resultText||'';$('thought').textContent=thoughtText||'';$('next-day').textContent=dayIndex===ACT1_DAYS-1?'첫 관리 계획 세우기':dayIndex===14?'2막 관리 계획을 세운다':'다음 날로';reflection.classList.remove('hidden');setProgress(actProgress(1));prev.disabled=false;historyOpen.disabled=false}
+function showReflection(resultText,thoughtText){hide();view='reflection';setActHeader();const day=days[dayIndex];chapter.textContent=`${day.day} · 결과`;stage.className='stage office'+weatherClasses(day.after?.at(-1)||day.scenes.at(-1));$('reflection-type').textContent=day.type;$('reflection-title').textContent=day.title;$('reflection-sub').textContent=resultText||'';$('thought').textContent=thoughtText||'';$('next-day').textContent=dayIndex===ACT1_DAYS-1?'첫 관리 계획 세우기':dayIndex===14?'2막 관리 계획을 세운다':'다음 날로';reflection.classList.remove('hidden');setProgress(actProgress(1));prev.disabled=false;historyOpen.disabled=false}
 function nextDay(){if(dayIndex===ACT1_DAYS-1){managementAct=1;showManagement(1);return}if(dayIndex===14){managementAct=2;showManagement(2);return}if(dayIndex===19){showAct3Plan();return}dayIndex++;sceneIndex=0;postIndex=0;afterIndex=0;showDayBreak()}
 function goBack(){if(view==='main'&&sceneIndex>0){sceneIndex--;renderMain()}else if(view==='choices'){sceneIndex=days[dayIndex].scenes.length-1;renderMain()}else if(view==='post'){if(postIndex>0){postIndex--;renderPost()}else showChoices()}else if(view==='after'){if(afterIndex>0){afterIndex--;renderAfter()}else{postIndex=days[dayIndex].choices[selected].post.length-1;renderPost()}}else if(view==='reflection'){const day=days[dayIndex];if(day.after?.length){afterIndex=day.after.length-1;renderAfter()}else if(day.choices){selected=answers[dayIndex]??0;postIndex=day.choices[selected].post.length-1;renderPost()}else{sceneIndex=day.scenes.length-1;renderMain()}}else if(view==='result-intro'){if(resultIntroIndex>0){resultIntroIndex--;renderResultIntro()}else showManagement(managementAct)}else if(view==='epilogue'&&epiIndex>0){epiIndex--;renderEpilogue()}}
 function openHistory(){logScene(currentScene());historyList.replaceChildren();log.forEach(item=>{const card=document.createElement('article');card.className=`history-item${item.choice?' choice-log':''}`;const b=document.createElement('strong'),p=document.createElement('p');b.textContent=item.label;p.textContent=item.text;card.append(b,p);historyList.append(card)});history.classList.remove('hidden');history.scrollTop=history.scrollHeight}
@@ -223,7 +228,7 @@ function toggleProject(id){const list=currentAssignments();$('plan-warning').tex
 function renderProjects(){const list=currentAssignments();document.querySelectorAll('[data-spot]').forEach(spot=>{const id=spot.dataset.spot,person=list[id],project=projects.find(p=>p.id===id),level=managementAct===1?0:baseFacilityLevel(id);spot.classList.toggle('on',Boolean(person));spot.classList.toggle('maxed',managementAct===2&&level>=2);spot.setAttribute('aria-pressed',String(Boolean(person)));spot.disabled=managementAct===2&&level>=2;spot.querySelector('small').textContent=managementAct===1?`1명 · ${project.cost}만 원`:`${level}→${Math.min(2,level+1)}단계 · ${project.cost}만 원`});const cost=assignedCost(list),dId=Object.keys(list).find(id=>list[id]==='도윤'),tId=Object.keys(list).find(id=>list[id]==='태식');$('budget').textContent=`${availableBeforePlan()-cost}만 원`;$('doyun-state').textContent=dId?projects.find(p=>p.id===dId).name.replace(/ 정비| 표시| 정리/g,''):'배정 가능';$('taesik-state').textContent=tId?projects.find(p=>p.id===tId).name.replace(/ 정비| 표시| 정리/g,''):'배정 가능'}
 function renderStyle(){const counts=styleCounts(managementAct),center=[75,80],axes={principle:[75,20],relation:[18,120],action:[132,120]},point=key=>{const ratio=.28+.72*counts[key]/5,v=axes[key];return`${Math.round(center[0]+(v[0]-center[0])*ratio)},${Math.round(center[1]+(v[1]-center[1])*ratio)}`};$('style-shape').setAttribute('points',[point('principle'),point('relation'),point('action')].join(' '));$('count-principle').textContent=counts.principle;$('count-relation').textContent=counts.relation;$('count-action').textContent=counts.action;const max=Math.max(...Object.values(counts)),names={principle:'원칙 고수',relation:'관계 중시',action:'실행 우선'},leaders=Object.keys(counts).filter(key=>counts[key]===max).map(key=>names[key]);$('style-copy').textContent=`${managementAct}막에서 도윤은 ${leaders.join('·')} 쪽에 조금 더 무게를 두었습니다.`}
 function confirmPlan(){const list=currentAssignments();if(!Object.keys(list).length){$('plan-warning').textContent='적어도 한 곳은 골라보세요.';return}resultIntroIndex=0;renderResultIntro()}
-const facilityImages={A:['corridor_stage0_unresolved_v0.1.png','corridor_stage1_temporary_zone_v0.1.png','corridor_stage2_permanent_station_v0.1.png'],B:['community_room_stage0_damp_unused_v0.1.png','community_room_stage1_trial_open_v0.1.png','community_room_stage2_permanent_lounge_v0.1.png'],C:['loading_zone_stage0_emergency_lane_blocked_v0.1.png','loading_zone_stage1_temporary_timed_bay_v0.1.png','loading_zone_stage2_permanent_timed_bay_v0.1.png'],D:['feeding_station_stage0_unmanaged_bowls_v0.1.png','feeding_station_stage1_trial_hygiene_zone_v0.1.png','feeding_station_stage2_permanent_hygiene_station_v0.1.png'],E:['lobby_hub_stage0_scattered_parcels_notices_v0.1.png','lobby_hub_stage1_temporary_sorting_v0.1.png','lobby_hub_stage2_integrated_information_hub_v0.1.png']};
+const facilityImages={A:['corridor_stage0_unresolved_v0.1.webp','corridor_stage1_temporary_zone_v0.1.webp','corridor_stage2_permanent_station_v0.1.webp'],B:['community_room_stage0_damp_unused_v0.1.webp','community_room_stage1_trial_open_v0.1.webp','community_room_stage2_permanent_lounge_v0.1.webp'],C:['loading_zone_stage0_emergency_lane_blocked_v0.1.webp','loading_zone_stage1_temporary_timed_bay_v0.1.webp','loading_zone_stage2_permanent_timed_bay_v0.1.webp'],D:['feeding_station_stage0_unmanaged_bowls_v0.1.webp','feeding_station_stage1_trial_hygiene_zone_v0.1.webp','feeding_station_stage2_permanent_hygiene_station_v0.1.webp'],E:['lobby_hub_stage0_scattered_parcels_notices_v0.1.webp','lobby_hub_stage1_temporary_sorting_v0.1.webp','lobby_hub_stage2_integrated_information_hub_v0.1.webp']};
 function imagePath(id,level){return`assets/2막_공간/${facilityImages[id][level]}`}
 function showPlanResult(){const list=currentAssignments(),selectedEntries=Object.entries(list);hide();view='plan-result';chapter.textContent=`2단계 · ${managementAct}막 관리 결과`;stage.className='stage office';$('result-step').textContent=`2단계 · ${managementAct}막 관리 결과`;$('result-title').textContent='고른 공간이 한 단계 달라졌다';$('result-lead').textContent='사건 선택이 아니라 이번 관리계획으로만 시설 단계가 올랐습니다.';planResult.classList.remove('hidden');const listEl=$('summary-list');listEl.replaceChildren();selectedEntries.forEach(([id,person])=>{const project=projects.find(p=>p.id===id),item=document.createElement('div'),before=managementAct===1?0:baseFacilityLevel(id),after=Math.min(2,before+1),copy=managementAct===1?effect(project):upgradeEffects[id][before];item.className='summary-item change-item';item.innerHTML=`<b>${project.name} · ${person} 담당</b><div class="before-after"><figure><img src="${imagePath(id,before)}" alt="${project.name} 정비 전"><figcaption>정비 전 · ${before}단계</figcaption></figure><figure><img src="${imagePath(id,after)}" alt="${project.name} 정비 후"><figcaption>정비 후 · ${after}단계</figcaption></figure></div><span>${copy}</span>`;listEl.append(item)});const rest=document.createElement('div');rest.className='summary-item';const remaining=availableBeforePlan()-assignedCost(list);rest.innerHTML=`<b>남은 예산 · ${remaining}만 원</b><span>고르지 못한 공간은 다음 관리 계획에서 다시 검토합니다.</span>`;listEl.append(rest);setProgress(93);prev.disabled=true;historyOpen.disabled=false}
 function renderReviewSummary(){const list=$('review-summary');list.replaceChildren();if(managementAct===1)return;const facilityNames={A:'복도 안전',B:'주민 쉼터',C:'주차·하역',D:'화단·급식소',E:'공동현관·안내'},rows=[['공용실 운영 방식',roomUse()],['현재 시설 단계',Object.keys(facilityNames).map(id=>`${facilityNames[id]} ${facilityLevel(id)}`).join(' · ')],['남은 예산',`${act2Budget().available}만 원`],['시설 점검 필요','공용실 습기와 지하 펌프실 기록 확인']];rows.forEach(([title,copy])=>{const item=document.createElement('div');item.className='summary-item';const b=document.createElement('b'),span=document.createElement('span');b.textContent=title;span.textContent=copy;item.append(b,span);list.append(item)})}
@@ -232,8 +237,11 @@ function showEnding(target=2){endingMode=target;hide();view='ending';stage.class
 function startAct2(){if(!Object.keys(assignments).length)assignments={A:'태식',B:'도윤'};dayIndex=ACT1_DAYS;sceneIndex=0;postIndex=0;afterIndex=0;managementAct=2;showDayBreak()}
 // Local review extension: reuse the existing dialogue, assets and earlier acts.
 let act3={context:null,plan:[],confirmed:false};
-let reviewSaveAllowed=true;
-const reviewPanel=$('review-panel');
+let saveAllowed=true;
+let campaignMenuOpen=false;
+let runStarted=false;
+const RUN_BACKUP_KEY='office_campaign_release_backup_v1';
+const campaignPanel=$('campaign-panel');
 const act3Projects=[
  {id:'rental',name:'예비 펌프·운영 지원',cost:120,slots:1,effect:'21~23일차 장비 임대와 업체 운영 지원을 확보합니다.',limit:'기존 펌프 노후와 배수 경로 문제는 남습니다.',response:'강태식 · “장비만 놓고 가는 계약은 아니군요. 업체 담당자와 근무자 인계 시간을 맞추겠습니다.”'},
  {id:'replace',name:'기존 펌프 선제 교체',cost:240,slots:2,effect:'21일차 전문업체 교체·시운전을 확인합니다.',limit:'업무 2칸을 모두 사용합니다. 다른 구역 보강은 별도입니다.',response:'도윤 · “내일 교체와 시운전까지 확인하겠습니다. 새 펌프를 넣었다고 다른 구역의 통제를 풀지는 않겠습니다.”'},
@@ -259,7 +267,7 @@ function planProblem(ids){
  if(sum3('cost',ids)>300+(act3.context?.carryover??0)-spent3())return '가용 예산을 초과합니다.';
  return '';
 }
-const oldHide=hide;hide=()=>{oldHide();reviewPanel.classList.add('hidden')};
+const oldHide=hide;hide=()=>{oldHide();campaignPanel.classList.add('hidden')};
 const oldLevel=facilityLevel;facilityLevel=id=>dayIndex>=15&&act3.context?act3.context.levels[id]:oldLevel(id);
 const oldCounts=styleCounts;styleCounts=(act=managementAct)=>{
  if(act!==3)return oldCounts(act);
@@ -269,17 +277,17 @@ const oldStoryState=storyState;storyState=()=>{
  const state=oldStoryState();if(dayIndex<15)return state;
  return {...state,currentAct:3,facilityLevels:facilityLevels(),actStyleCounts:{...state.actStyleCounts,act3:styleCounts(3)},act3,act3Budget:budget3(),carryoverBudget:act3.context.carryover,dayResults:{...state.dayResults,day16:answers[15]===undefined?null:{choice:days[15].choices[answers[15]].style,roomClosed:true},day17:dayIndex>16?{photoSaved:true}:null,day18:answers[17]===undefined?null:{choice:days[17].choices[answers[17]].style,commonDrainCause:true,temporarySupport:answers[17]===2?'completed_before_day20':'none'},day19:dayIndex>18?{loadingRouteShared:true}:null,day20:{plan:act3.plan,confirmed:act3.confirmed,workCompleted:false}},flags:{...state.flags,roomClosed:true},pendingProjects:act3.confirmed?[...act3.plan]:[]};
 };
-const oldSnapshot=progressSnapshot;progressSnapshot=()=>({...oldSnapshot(),version:'act3-local-review-3',act3});
-const oldSave=saveProgress;saveProgress=()=>{if(reviewSaveAllowed)oldSave()};
+const oldSnapshot=progressSnapshot;progressSnapshot=()=>({...oldSnapshot(),version:'v1.6.0-rc1',act3});
+const oldSave=saveProgress;saveProgress=()=>{if(saveAllowed&&!campaignMenuOpen&&storageReadable)oldSave()};
 const oldLoad=loadProgress;loadProgress=()=>{
- try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);
- if(saved.schema!==2||!Number.isInteger(saved.dayIndex)||saved.dayIndex<0||saved.dayIndex>19)throw Error('지원하지 않는 저장 형식입니다.');
+ try{const raw=readStored(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);
+ if(saved.schema!==2||!Number.isInteger(saved.dayIndex)||saved.dayIndex<0||saved.dayIndex>=days.length)throw Error('지원하지 않는 저장 형식입니다.');
  if(saved.dayIndex>=15){const state=saved.act3||saved.storyState?.act3;act3={context:validContext(state?.context),plan:Array.isArray(state?.plan)?state.plan:[],confirmed:state?.confirmed===true};
   if(act3.plan.some(id=>!project3(id)))throw Error('저장된 계획 항목을 확인해주세요.');
   for(const i of [15,17])if(saved.answers?.[i]!==undefined&&![0,1,2].includes(saved.answers[i]))throw Error('선택 기록이 올바르지 않습니다.');
  }
  const ok=oldLoad();if(!ok)throw Error('저장 파일을 읽지 못했습니다.');if(dayIndex>=15&&planProblem(act3.plan))throw Error('저장된 계획이 확정 기준과 맞지 않습니다.');return true;
- }catch(e){reviewSaveAllowed=false;window.reviewLoadError=e.message;return false}
+ }catch(e){saveAllowed=false;window.saveLoadError=e.message;return false}
 };
 const oldHeader=setActHeader;setActHeader=()=>{if(dayIndex<15)return oldHeader();$('act-name').textContent='3막 · 벽 안의 물소리';progressbar.setAttribute('aria-label','3막 진행률')};
 const oldProgress=actProgress;actProgress=(fraction=0)=>dayIndex>=15?6+Math.round((dayIndex-15+fraction)/5*78):dayIndex>=7?6+Math.round((dayIndex-7+fraction)/8*78):oldProgress(fraction);
@@ -325,49 +333,18 @@ const oldShowEnding=showEnding;showEnding=(target=2)=>{
  oldShowEnding(target);if(target===3){$('ending-restart').textContent='3막 시작하기';$('ending-restart').disabled=false}
 };
 const oldSavedView=showSavedView;showSavedView=()=>{
- if(view==='review-setup')return showReviewSetup();if(view==='act3-plan')return showAct3Plan();if(view==='act3-result')return showAct3Result();if(view==='act3-recap')return showAct3Recap();oldSavedView();
+ if(view==='act3-plan')return showAct3Plan();if(view==='act3-result')return showAct3Result();if(view==='act3-recap')return showAct3Recap();oldSavedView();
 };
-function panel(title,kicker){hide();reviewPanel.replaceChildren();reviewPanel.classList.remove('hidden');stage.className='stage office';doyun.classList.add('hidden');npc.classList.add('hidden');prev.disabled=true;historyOpen.disabled=!log.length;const small=document.createElement('small'),h=document.createElement('h1');small.textContent=kicker;h.textContent=title;reviewPanel.append(small,h);return reviewPanel}
+function panel(title,kicker){hide();campaignPanel.replaceChildren();campaignPanel.classList.remove('hidden');stage.className='stage office';doyun.classList.add('hidden');npc.classList.add('hidden');prev.disabled=true;historyOpen.disabled=!log.length;const small=document.createElement('small'),h=document.createElement('h1');small.textContent=kicker;h.textContent=title;campaignPanel.append(small,h);return campaignPanel}
 function para(parent,text,tag='p',className=''){const el=document.createElement(tag);el.textContent=text;el.className=className;parent.append(el);return el}
 function button(parent,text,fn){const el=document.createElement('button');el.type='button';el.className='button';el.textContent=text;el.addEventListener('click',fn);parent.append(el);return el}
-function startAct3(context){
- act3={context:validContext(context||{levels:Object.fromEntries(Object.keys(facilityKeys).map(id=>[id,oldLevel(id)])),carryover:act2Budget().available,room:answers[14]??0,seniorOpen:answers[7]===2}),plan:[],confirmed:false};
+function startAct3(context,options={}){
+ const nextContext=validContext(context||{levels:Object.fromEntries(Object.keys(facilityKeys).map(id=>[id,oldLevel(id)])),carryover:act2Budget().available,room:answers[14]??0,seniorOpen:answers[7]===2});
+ if(context!==undefined&&options.preserveHistory!==true){answers={};assignments={};act2Assignments={};log=[]}
+ campaignMenuOpen=false;runStarted=true;act4=emptyAct4();
+ act3={context:nextContext,plan:[],confirmed:false};
  for(const key of Object.keys(answers))if(Number(key)>=15)delete answers[key];
- dayIndex=15;managementAct=3;sceneIndex=postIndex=afterIndex=epiIndex=0;reviewSaveAllowed=true;showDayBreak();saveProgress();
-}
-function showReviewSetup(){
- const priorView=view;if(!act3.context)view='review-setup';const p=panel('벽 안의 물소리','오늘도 관리사무소 · 3막');
- chapter.textContent='3막 시작';para(p,'16~20일차 · 조사와 점검, 주민들의 협력, 그리고 큰비를 앞둔 관리 계획.');
- if(!act3.context){button(p,'3막 바로 시작 · 16일차',()=>{log=[];startAct3({levels:{A:1,B:1,C:0,D:0,E:0},carryover:80,room:0,seniorOpen:false})}).classList.add('primary');para(p,'바로 시작 조건: 이월 80만 원 · 복도/공용실 1단계 · 전용 쉼터 용도. 다른 조건은 아래에서 바꿀 수 있습니다.','p','muted')}
- if(window.reviewLoadError)para(p,'저장 내용을 보존했습니다. '+window.reviewLoadError+' 새로 시작하면 3막 진행 저장을 교체합니다.','p','notice');
- if(act3.context){button(p,'진행하던 곳으로 돌아가기',()=>{view=priorView==='review-setup'?'day-break':priorView;showSavedView()})}
- para(p,'2막 결과를 설정해 바로 시작','h2');para(p,'아래 조건을 직접 정하거나, 저장된 2막 결과를 불러와 이어갈 수 있습니다.','p','muted');
- const form=document.createElement('form');form.className='setup-form';p.append(form);
- const field=(labelText,input)=>{const label=document.createElement('label');para(label,labelText,'span');label.append(input);form.append(label);return input};
- const select=(items,value)=>{const e=document.createElement('select');items.forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;e.append(o)});e.value=value;return e};
- const fields={};for(const id of Object.keys(facilityKeys))fields[id]=field(projects.find(x=>x.id===id).name,select([[0,'0단계 · 미정비'],[1,'1단계 · 임시 정비'],[2,'2단계 · 정식 정비']],act3.context?.levels[id]??(id==='A'||id==='B'?1:0)));
- const money=document.createElement('input');money.type='number';money.min='0';money.max='300';money.step='1';money.value=act3.context?.carryover??80;field('2막 이월액 (만 원)',money);
- const usage=field('공용실 운영 방식',select([[0,'전용 무더위·안전 쉼터'],[1,'주민 모임이 주별로 결정'],[2,'칸막이형 쉼터·활동실']],act3.context?.room??0));
- const senior=field('경로당 이용 가능 여부',select([['yes','사용 가능'],['no','사용 불가 · 대체 장소 안내']],act3.context?.seniorOpen?'yes':'no'));
- const error=para(form,'','p','notice');error.setAttribute('role','alert');
- const submit=document.createElement('button');submit.type='submit';submit.className='button primary';submit.textContent='이 조건으로 3막 시작';form.append(submit);
- form.addEventListener('submit',e=>{e.preventDefault();try{const context=validContext({levels:Object.fromEntries(Object.entries(fields).map(([id,el])=>[id,Number(el.value)])),carryover:money.value===''?NaN:Number(money.value),room:Number(usage.value),seniorOpen:senior.value==='yes'});log=[];startAct3(context)}catch(e){error.textContent=e.message}});
- para(p,'실제 2막 저장으로 이어보기','h2');para(p,'2막을 끝낸 저장 파일(JSON)을 선택하면 시설·이월액·용도를 읽어 복사합니다. 원본은 변경하지 않습니다.','p','muted');
- const file=document.createElement('input');file.type='file';file.accept='.json,application/json';file.setAttribute('aria-label','2막 완료 저장 파일 선택');p.append(file);
- file.addEventListener('change',async()=>{try{if(!file.files[0])return;importAct2(JSON.parse(await file.files[0].text()))}catch(e){error.textContent=e.message}});
- button(p,'이 브라우저의 2막 완료 저장 복사',()=>{try{const raw=localStorage.getItem('office_v10_apply');if(!raw)throw Error('같은 브라우저 주소에 저장된 진행이 없습니다. 저장 파일을 선택하거나 시작 조건을 설정해주세요.');importAct2(JSON.parse(raw))}catch(e){error.textContent=e.message}});
- if(act3.context)button(p,'현재 진행 저장 내보내기',()=>{const blob=new Blob([JSON.stringify(progressSnapshot(),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='관리사무소_3막_진행저장.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
-}
-function importAct2(saved){
- if(saved?.schema!==2||saved.dayIndex!==14||!['ending','epilogue','act-review','plan-result'].includes(saved.view)||!saved.assignments||!saved.storyState)throw Error('2막 관리 계획을 마친 저장 파일이 필요합니다.');
- const a=saved.answers||{},first=saved.assignments,second=saved.storyState.act2Assignments||{};
- if(![1,2].includes(Object.keys(first).length)||![1,2].includes(Object.keys(second).length)||[...Object.values(first),...Object.values(second)].some(person=>!['도윤','태식'].includes(person)))throw Error('완료된 관리 계획의 담당자·장소 기록을 확인해주세요.');
- for(const id of [...Object.keys(first),...Object.keys(second)])if(!facilityKeys[id])throw Error('시설 기록을 확인해주세요.');
- for(const n of [7,8,11,12,14])if(![0,1,2].includes(a[n]))throw Error('2막 선택 기록이 완전하지 않습니다.');
- const cost=Object.keys(second).reduce((sum,id)=>sum+projects.find(p=>p.id===id).cost,0);
- const incident=(a[7]===2?60:0)+(a[11]===0?40:0)+(a[12]===2?20:0)+(a[14]===2?30:0);
- const context=validContext({levels:Object.fromEntries(Object.keys(facilityKeys).map(id=>[id,(first[id]?1:0)+(second[id]?1:0)])),carryover:300-incident-cost,room:a[14],seniorOpen:a[7]===2});
- assignments={...first};act2Assignments={...second};answers={...a};log=[];startAct3(context);
+ dayIndex=15;managementAct=3;sceneIndex=postIndex=afterIndex=epiIndex=0;saveAllowed=true;showDayBreak();saveProgress();
 }
 function showAct3Plan(message=''){
  view='act3-plan';managementAct=3;setActHeader();const p=panel('큰비를 앞두고 무엇을 준비할까?','20일차 · 관리 계획');chapter.textContent='3막 관리 계획';
@@ -389,12 +366,224 @@ function showAct3Result(){view='act3-result';const p=panel('준비 계획을 확
  para(p,`남은 가용 예산 ${budget3().available}만 원`,'h2');para(p,'공용실 사용 제한은 유지됩니다. 시설 단계는 아직 오르지 않았습니다.');button(p,'3막을 돌아본다',showAct3Recap).classList.add('primary');}
 function showAct3Recap(){view='act3-recap';const p=panel('벽과 지하, 그리고 사람들','3막 전체 회상');chapter.textContent='3막 회상';const counts=styleCounts(3);para(p,`원칙 고수 ${counts.principle} · 관계 중시 ${counts.relation} · 실행 우선 ${counts.action}`,'h2');para(p,'16·18일차의 두 판단만 집계했습니다. 관리 계획은 포함하지 않습니다.','p','muted');
  para(p,'벽과 펌프는 같은 지하 배수 문제의 두 증상이었다. 사진 속 기억을 함께 보고, 줄자의 양끝을 나눠 잡았다. 큰비를 앞두고 각자 맡을 준비가 정해졌다.');para(p,`4막으로 남기는 예산 · ${budget3().available}만 원`,'h2');button(p,'첫 빗방울',()=>{epiIndex=0;managementAct=3;renderEpilogue()}).classList.add('primary');}
-$('review-home').addEventListener('click',showReviewSetup);
-// The review panel makes custom choices keyboard-accessible; dialogue uses the same navigation.
-bubble.tabIndex=0;bubble.setAttribute('role','button');bubble.setAttribute('aria-label','다음 대사');bubble.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();advance();saveProgress()}});
-window.ACT3_REVIEW={get state(){return progressSnapshot()},start:startAct3,budget:budget3,problem:planProblem,projects:act3Projects,importAct2};
+// Whole-campaign extension. Published Acts 1–3 keep their original state and rules.
+const lateActsReady=()=>window.ACT4_DAYS?.length===3&&window.ACT5_DAYS?.length===1;
+const lateConfig=()=>window.LATE_ACT_CONFIG;
+const emptyAct4=()=>({started:false,sourceBudget:0,completedProjects:[],levels:null,emergencyChoice:null,emergencyCost:0,emergencyConfirmed:false,services:null});
+let act4=emptyAct4();
+const emergencyOption=id=>lateConfig()?.emergencyOptions.find(option=>option.id===id);
+const expectedLateLevels=()=>Object.fromEntries(Object.keys(facilityKeys).map(id=>[id,Math.min(2,act3.context.levels[id]+(act3.plan.includes(id)?1:0))]));
+const lateBalance=()=>act4.sourceBudget-(act4.emergencyConfirmed?act4.emergencyCost:0);
+const priorCounts=styleCounts;styleCounts=(act=managementAct)=>{
+ if(act!==4&&act!==5)return priorCounts(act);
+ const counts={principle:0,relation:0,action:0};
+ // Act4 direct-focus choices and spending are outcome history, not management-style points.
+ return counts;
+};
+function totalStyleCounts(){const total={principle:0,relation:0,action:0};for(const act of [1,2,3])for(const [key,value]of Object.entries(styleCounts(act)))total[key]+=value;return total}
+function branchState(){
+ const completed=act4.started?act4.completedProjects:[];
+ const pumpCoverage=completed.includes('rental')||completed.includes('replace'),drainCoverage=completed.includes('drain');
+ const coverage=pumpCoverage&&drainCoverage?'both':pumpCoverage||drainCoverage?'one':'neither';
+ const counts=totalStyleCounts(),highest=Math.max(...Object.values(counts));
+ const known=i=>Number.isInteger(answers[i])&&Boolean(days[i]?.choices?.[answers[i]]);
+ const firstThreeChoiceDays=[0,1,2,4,6,7,8,11,12,14,15,17],styleHistoryKnown=firstThreeChoiceDays.every(known);
+ const act2Experienced=[7,8,11,12,14].every(known),loggedDay=i=>log.some(item=>typeof item.key==='string'&&item.key.startsWith(`main-${i}-`));
+ const history={fullCampaign:styleHistoryKnown,act4Experienced:[20,21,22].every(known),day9Experienced:known(8),day14Experienced:act2Experienced||loggedDay(13),day16Experienced:known(15),day19Experienced:loggedDay(18),day22Experienced:known(21),sharedPlantCare:styleHistoryKnown||loggedDay(5)};
+ return {pumpCoverage,drainCoverage,residentSupport:completed.includes('residents'),
+  pumpMode:completed.includes('replace')?'replacement':completed.includes('rental')?'rental':'original',
+  damage:lateConfig()?.damageByCoverage[coverage]||'broad',facilities:act4.levels||act3.context?.levels||{},
+  roomUse:act3.context?.room??0,seniorOpen:act3.context?.seniorOpen??false,availableBudget:lateBalance(),
+  completedProjects:[...completed],completedProjectNames:completed.map(id=>project3(id)?.name||id),
+  emergencyChoice:act4.emergencyChoice,emergencyLabel:emergencyOption(act4.emergencyChoice)?.label||'아직 정하지 않음',emergencyCost:act4.emergencyConfirmed?act4.emergencyCost:0,
+  inspectionSupport:act4.emergencyChoice==='inspection',venueSupport:act4.emergencyChoice==='venue',contactSupport:act4.emergencyChoice==='contact',
+  day21Focus:days[20]?.choices?.[answers[20]]?.id||null,day22Focus:days[21]?.choices?.[answers[21]]?.id||null,day23Focus:days[22]?.choices?.[answers[22]]?.id||null,
+  history,styleHistoryKnown,performanceConfirmed:false,styleCounts:counts,styleLeaders:highest?Object.keys(counts).filter(key=>counts[key]===highest):[]};
+}
+const priorFacilityLevel=facilityLevel;facilityLevel=id=>dayIndex>=20&&act4.started?act4.levels[id]:priorFacilityLevel(id);
+const priorStoryState=storyState;storyState=()=>{
+ const state=priorStoryState();if(dayIndex<20)return state;
+ return {...state,currentAct:dayIndex<23?4:5,act4,branchState:branchState(),facilityLevels:facilityLevels(),
+  actStyleCounts:{...state.actStyleCounts,act4:styleCounts(4)},carryoverBudget:lateBalance(),
+  act4Budget:{opening:act4.sourceBudget,emergencySpent:act4.emergencyConfirmed?act4.emergencyCost:0,available:lateBalance()},
+  pendingProjects:[],completedProjects:[...act4.completedProjects],
+  dayResults:{...state.dayResults,day20:{...state.dayResults.day20,workCompleted:act4.started},day21:{workCompleted:act4.started,focus:branchState().day21Focus},day22:{focus:branchState().day22Focus,emergencyChoice:act4.emergencyChoice},day23:{focus:branchState().day23Focus,damage:branchState().damage}}};
+};
+const priorSnapshot=progressSnapshot;progressSnapshot=()=>({...priorSnapshot(),...(dayIndex>=20?{version:lateConfig()?.version||'late-acts-review-1',act4}:{})});
+const priorLoad=loadProgress;loadProgress=()=>{
+ if(!priorLoad())return false;
+ try{
+  if(dayIndex>=20){
+   if(!lateActsReady()||!act3.confirmed)throw Error('4막 시작에 필요한 3막 완료 기록이 없습니다.');
+   const saved=JSON.parse(readStored(STORAGE_KEY)),raw=saved.act4||saved.storyState?.act4;
+   if(!raw?.started)throw Error('4막 작업 완료 기록이 없습니다.');
+   const option=raw.emergencyChoice===null?null:emergencyOption(raw.emergencyChoice);
+   if(raw.emergencyChoice!==null&&!option)throw Error('긴급 배치 기록을 확인해주세요.');
+   act4={...emptyAct4(),started:true,sourceBudget:budget3().available,completedProjects:[...act3.plan],levels:expectedLateLevels(),emergencyChoice:option?.id||null,emergencyConfirmed:raw.emergencyConfirmed===true,emergencyCost:raw.emergencyConfirmed===true?(option?.cost??NaN):0,services:raw.services&&typeof raw.services==='object'?raw.services:null};
+   if(!Number.isFinite(act4.sourceBudget)||!Number.isFinite(act4.emergencyCost)||lateBalance()<0||act4.emergencyConfirmed&&!option)throw Error('긴급 배치 예산 기록을 확인해주세요.');
+   if(act4.emergencyConfirmed&&option?.id!=='hold'&&serviceProblem(option.id))throw Error('긴급 배치의 추가 제공 범위 확인이 필요합니다.');
+   if(dayIndex>=22&&!act4.emergencyConfirmed)throw Error('23일차 이전 긴급 배치 확인 기록이 필요합니다.');
+   for(const i of [20,21,22])if(answers[i]!==undefined&&![0,1,2].includes(answers[i]))throw Error('4막 선택 기록이 올바르지 않습니다.');
+  }
+  return true;
+ }catch(e){saveAllowed=false;window.saveLoadError=e.message;return false}
+};
+const priorHeader=setActHeader;setActHeader=()=>{if(dayIndex<20)return priorHeader();const act=dayIndex<23?4:5;$('act-name').textContent=act===4?'4막 · 가장 긴 비':'5막 · 비가 그친 뒤';progressbar.setAttribute('aria-label',`${act}막 진행률`)};
+const priorProgress=actProgress;actProgress=(fraction=0)=>dayIndex>=23?6+Math.round(fraction*78):dayIndex>=20?6+Math.round((dayIndex-20+fraction)/3*78):priorProgress(fraction);
+const priorResolve=resolve;resolve=raw=>{
+ const dynamic=raw?.dynamic,late=typeof dynamic==='string'&&/^(act4|act5):/.test(dynamic);
+ const out=priorResolve(late?{...raw,dynamic:undefined}:raw);
+ if(late){const map=dynamic.startsWith('act4:')?window.ACT4_DYNAMIC:window.ACT5_DYNAMIC;const render=map?.[dynamic]||map?.[dynamic.split(':')[1]];
+  if(typeof render!=='function')throw Error(`후반부 장면 분기가 없습니다: ${dynamic}`);
+  const patch=render(storyState());if(!patch||typeof patch.text!=='string')throw Error(`후반부 장면 문장이 없습니다: ${dynamic}`);
+  return {...out,...patch};
+ }
+ return out;
+};
+function startAct4(){
+ if(!lateActsReady()||!act3.confirmed)return;
+ if(!act4.started)act4={...emptyAct4(),started:true,sourceBudget:budget3().available,completedProjects:[...act3.plan],levels:expectedLateLevels()};
+ dayIndex=20;managementAct=4;sceneIndex=postIndex=afterIndex=epiIndex=0;campaignMenuOpen=false;showDayBreak();saveProgress();
+}
+function startAct5(){dayIndex=23;managementAct=5;sceneIndex=postIndex=afterIndex=epiIndex=0;showDayBreak();saveProgress()}
+const priorNextDay=nextDay;nextDay=()=>{
+ if(dayIndex===21){showEmergencyPlan();return}
+ if(dayIndex===22){showEnding(5);return}
+ if(dayIndex===23){showEnding(6);return}
+ priorNextDay();
+};
+function serviceProblem(id){
+ if(id==='hold')return '';
+ const service=act4.services?.[id];
+ if(service?.alreadyCovered===true)return '확보됨 · 기존 범위와 중복';
+ if(service?.needed===false)return '추가 필요 없음';
+ if(service?.needed!==true||service?.available!==true)return '제공 확인 전';
+ if(service?.nonOverlapping!==true)return '기존 범위와 중복 여부 확인 전';
+ return '';
+}
+function showEmergencyPlan(message=''){
+ if(!act4.services)act4.services=JSON.parse(JSON.stringify(lateConfig().confirmedReviewServices));
+ view='act4-emergency';managementAct=4;const p=panel('밤을 앞두고 무엇을 더 맡길까?','22일차 · 긴급 배치');setActHeader();chapter.textContent='4막 긴급 배치';stage.className='stage office act4-weather weather-dusk rain-light';
+ para(p,`남은 예산 ${act4.sourceBudget}만 원`,'h2');para(p,'도윤이 직접 맡을 일과 유료 추가 지원은 별개입니다. 기본 안전조치와 연락은 모든 선택에서 계속됩니다.');
+ const warning=para(p,message,'p','notice');warning.setAttribute('role','status');
+ for(const option of lateConfig().emergencyOptions){const card=document.createElement('button');card.type='button';card.className='project3'+(act4.emergencyChoice===option.id?' selected':'');card.setAttribute('aria-pressed',String(act4.emergencyChoice===option.id));const unavailable=serviceProblem(option.id);card.disabled=option.cost>act4.sourceBudget||Boolean(unavailable);
+  para(card,option.label,'strong');para(card,`${option.cost}만 원${unavailable?' · '+unavailable:option.cost>act4.sourceBudget?' · 예산 부족':''}`,'span','cost');para(card,option.description,'span');if(act4.services?.[option.id]?.scope)para(card,'확인한 추가 범위: '+act4.services[option.id].scope,'small');
+  card.addEventListener('click',()=>{act4.emergencyChoice=option.id;showEmergencyPlan();saveProgress()});p.append(card);
+ }
+ button(p,'긴급 배치를 확정하고 23일차로',()=>{
+  const option=emergencyOption(act4.emergencyChoice);if(!option){warning.textContent='추가 지원 또는 기본 대응 유지를 선택해주세요.';return}
+  if(option.cost>act4.sourceBudget){warning.textContent='남은 예산 안에서 선택해주세요.';return}
+  const problem=serviceProblem(option.id);if(problem){warning.textContent=problem;return}
+  act4.emergencyConfirmed=true;act4.emergencyCost=option.cost;
+  log=log.filter(item=>item.key!=='act4-emergency');log.push({key:'act4-emergency',label:'22일차 · 긴급 배치',text:`${option.label} · ${option.cost}만 원`,choice:true});
+  dayIndex=22;sceneIndex=postIndex=afterIndex=0;showDayBreak();saveProgress();
+ }).classList.add('primary');
+}
+function showFinalDiary(){
+ view='final-diary';managementAct=5;const p=panel('오늘도, 관리사무소','5막 · 도윤의 기록');setActHeader();chapter.textContent='마지막 기록';
+ const b=branchState(),styleNames={principle:'원칙 고수',relation:'관계 중시',action:'실행 우선'};
+ const diary=window.ACT5_DIARY?.(storyState());
+ if(diary?.title)para(p,diary.title,'h2');
+ for(const text of diary?.paragraphs||['비가 그친 뒤, 완료한 일과 앞으로 확인할 일을 나누어 적었다.'])para(p,text);
+ para(p,'지나온 판단','h2');para(p,Object.entries(b.styleCounts).map(([key,n])=>`${styleNames[key]} ${n}`).join(' · '));
+ para(p,!b.styleHistoryKnown?'이전 막의 선택 기록이 모두 있지는 않아, 전체 관리 성향을 단정하지 않았다.':b.styleLeaders.length>1?`한 방향으로만 기울지 않았다. ${b.styleLeaders.map(key=>styleNames[key]).join('·')} 사이에서 상황마다 먼저 지킬 것을 골랐다.`:b.styleLeaders.length?`${styleNames[b.styleLeaders[0]]}에 조금 더 무게를 두었다.`:'어떤 선택을 이어왔는지, 기록을 천천히 다시 읽는다.');
+ para(p,'마친 준비와 남은 일','h2');para(p,b.completedProjectNames.join(' · ')||'기본 안전조치와 점검을 이어갔다.');
+ para(p,`비가 남긴 흔적: ${lateConfig().damageLabels[b.damage]}. 공용실은 전문 점검과 안전 확인 전까지 사용 제한을 유지한다.`);
+ para(p,`긴급 배치: ${b.emergencyLabel} · ${b.emergencyCost}만 원`);para(p,`남은 예산: ${b.availableBudget}만 원`);
+ button(p,'마지막 장면',()=>showEnding(6)).classList.add('primary');setProgress(96);saveProgress();
+}
+const diaryReviewButton=document.createElement('button');diaryReviewButton.type='button';diaryReviewButton.className='button hidden';diaryReviewButton.textContent='관리 기록 다시 보기';diaryReviewButton.addEventListener('click',showFinalDiary);ending.querySelector('.actions').append(diaryReviewButton);
+const priorShowEnding=showEnding;showEnding=(target=2)=>{
+ diaryReviewButton.classList.toggle('hidden',dayIndex<23);$('finale-group-photo').classList.toggle('hidden',dayIndex<23);
+ if(dayIndex>=23){hide();view='ending';endingMode=6;stage.className='stage office';doyun.classList.add('hidden');npc.classList.add('hidden');ending.classList.remove('hidden','act3-teaser');chapter.textContent='이야기 · 끝';$('ending-kicker').textContent='ACT 5 · COMPLETE';$('ending-title').textContent='오늘도 관리사무소';$('ending-copy').textContent='비가 그친 창가에 작은 새잎이 났다. 내일도 누군가는 이 문을 두드릴 것이다.';$('ending-restart').textContent='시작 화면으로';$('ending-restart').disabled=false;setProgress(100);prev.disabled=true;saveProgress();return}
+ if(dayIndex===22&&target===5){hide();view='ending';endingMode=5;stage.className='stage exterior act4-weather weather-night rain-heavy';doyun.classList.add('hidden');npc.classList.add('hidden');ending.classList.remove('hidden','act3-teaser');chapter.textContent='4막 · 끝';$('ending-kicker').textContent='ACT 5';$('ending-title').textContent='비가 그친 뒤';$('ending-copy').textContent='가장 긴 밤이 지나고, 24일차 아침이 밝아온다.';$('ending-restart').textContent='5막 시작하기';$('ending-restart').disabled=false;setProgress(100);prev.disabled=true;return}
+ priorShowEnding(target);
+ if(dayIndex===19&&lateActsReady()){stage.className='stage office early-rain';$('ending-copy').textContent='준비 계획을 정했습니다. 21일차에 작업 완료를 확인하고, 가장 긴 비를 맞습니다.';$('ending-restart').textContent='4막 시작하기';$('ending-restart').disabled=false}
+};
+const priorSavedView=showSavedView;showSavedView=()=>{
+ if(view==='act4-emergency')return showEmergencyPlan();
+ if(view==='final-diary')return showFinalDiary();
+ if(view==='ending'&&dayIndex===22)return showEnding(5);
+ priorSavedView();
+};
 
-$('start').addEventListener('click',renderMain);$('day-break-open').addEventListener('click',renderMain);audioToggle.addEventListener('click',toggleAudio);document.addEventListener('click',startAudio,{once:true});bubble.addEventListener('click',advance);stage.addEventListener('click',event=>{if(['main','post','after','result-intro','epilogue'].includes(view)&&!event.target.closest('button,.bubble,.history,.review-panel'))advance()});$('next-day').addEventListener('click',nextDay);prev.addEventListener('click',goBack);historyOpen.addEventListener('click',openHistory);$('history-close').addEventListener('click',()=>history.classList.add('hidden'));document.querySelectorAll('[data-spot]').forEach(spot=>spot.addEventListener('click',()=>toggleProject(spot.dataset.spot)));$('confirm-plan').addEventListener('click',confirmPlan);planResult.addEventListener('click',showActReview);$('epilogue-open').addEventListener('click',()=>{epiIndex=0;renderEpilogue()});$('ending-restart').addEventListener('click',()=>{if(endingMode===2)startAct2();else if(endingMode===3)startAct3()});syncAudio();
-document.addEventListener('click',()=>queueMicrotask(saveProgress));window.addEventListener('pagehide',saveProgress);const resumed=loadProgress();if(!resumed)showReviewSetup();else showSavedView();
-console.assert(days.length===20,'1~3막은 20일이어야 합니다.');console.assert(days.slice(0,7).filter(day=>day.choices).length===5,'1막 선택 사건은 다섯 개여야 합니다.');console.assert(days.slice(7,15).filter(day=>day.choices).length===5,'2막 선택 사건은 다섯 개여야 합니다.');console.assert(days.slice(7,15).filter(day=>!day.choices).length===3,'2막 자동 사건은 세 개여야 합니다.');console.assert(days.every(day=>!day.choices||day.choices.length===3),'선택 사건마다 선택지 세 개가 필요합니다.');console.assert(facilityImages&&Object.keys(facilityImages).length===5,'다섯 공간의 단계별 이미지가 필요합니다.');console.assert(incidentSpent()>=0&&incidentSpent()<=150,'2막 사건 비용은 0~150만 원이어야 합니다.');
+function validateCampaignSave(saved){return window.validateCampaignSaveData(saved,{days,projects,act3Projects,facilityKeys,act3Ending:window.ACT3_ENDING,config:lateConfig()})}
+const uncheckedLoad=loadProgress;loadProgress=()=>{
+ try{const raw=readStored(STORAGE_KEY);if(!raw)return false;validateCampaignSave(JSON.parse(raw));const ok=uncheckedLoad();if(ok)runStarted=true;return ok}
+ catch(error){saveAllowed=false;window.saveLoadError=error.message;return false}
+};
+function exportCampaignSave(){
+ const blob=new Blob([JSON.stringify(progressSnapshot(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='오늘도_관리사무소_진행저장_v1.6.0-rc1.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function importCampaignSave(saved){
+ validateCampaignSave(saved);
+ if(!storageReadable)throw Error('브라우저 저장을 읽을 수 없어 안전하게 교체할 수 없습니다. 저장 접근을 허용한 뒤 다시 가져와주세요.');
+ if(!confirmReplaceProgress('선택한 진행 저장을 가져오기'))return false;
+ const previousRaw=readStored(STORAGE_KEY),previousSnapshot=progressSnapshot(),previousAllowed=saveAllowed,previousStarted=runStarted;
+ try{
+  writeStored(STORAGE_KEY,JSON.stringify(saved));act4=emptyAct4();saveAllowed=true;
+  if(!loadProgress())throw Error(window.saveLoadError||'진행 저장을 읽지 못했습니다.');
+  delete window.saveLoadError;campaignMenuOpen=false;showSavedView();saveProgress();return true;
+ }catch(error){
+  try{writeStored(STORAGE_KEY,JSON.stringify(previousSnapshot));act4=emptyAct4();uncheckedLoad();if(previousRaw===null)localStorage.removeItem(STORAGE_KEY);else writeStored(STORAGE_KEY,previousRaw)}catch(restoreError){console.warn('이전 저장 복원 확인 필요',restoreError)}
+  saveAllowed=previousAllowed;runStarted=previousStarted;showCampaignHome();throw error;
+ }
+}
+let campaignImportGeneration=0;
+async function importCampaignFile(file){
+ const request=++campaignImportGeneration;
+ if(!file)return false;
+ if(file.size>5*1024*1024)throw Error('진행 저장 파일은 5MB 이하여야 합니다.');
+ let text;try{text=await file.text()}catch(error){if(request!==campaignImportGeneration)return false;throw Error('파일을 읽지 못했습니다. 기존 진행은 변경하지 않았습니다.')}
+ if(request!==campaignImportGeneration)return false;
+ let saved;try{saved=JSON.parse(text)}catch(error){throw Error('JSON 진행 저장 파일이 아닙니다. 기존 진행은 변경하지 않았습니다.')}
+ return importCampaignSave(saved);
+}
+
+function confirmReplaceProgress(action){
+ const raw=readStored(STORAGE_KEY)||(runStarted?JSON.stringify(progressSnapshot()):null);
+ if(!raw)return true;
+ if(!window.confirm(`${action}하면 현재 진행 저장을 바꿉니다. 계속할까요?`))return false;
+ try{writeStored(RUN_BACKUP_KEY,raw)}catch(e){console.warn('이전 진행 백업 실패',e);return false}
+ return true;
+}
+function startCampaign(){
+ campaignImportGeneration++;
+ if(!confirmReplaceProgress('1막부터 새로 시작'))return;
+ dayIndex=sceneIndex=postIndex=afterIndex=resultIntroIndex=epiIndex=selected=0;
+ answers={};assignments={};act2Assignments={};log=[];managementAct=1;endingMode=2;
+ act3={context:null,plan:[],confirmed:false};act4=emptyAct4();runStarted=true;view='cover';saveAllowed=true;campaignMenuOpen=false;
+ delete window.saveLoadError;
+ showSavedView();saveProgress();
+}
+function showCampaignHome(){
+ campaignImportGeneration++;
+ const p=panel('오늘도 관리사무소','라이프아파트 · 이야기 시작');campaignMenuOpen=true;
+ chapter.textContent='시작 화면';$('act-name').textContent=lateActsReady()?'1~5막 · 24일간의 이야기':'1~3막 · 20일간의 이야기';
+ para(p,lateActsReady()?'처음 만난 주민들, 가장 긴 비, 그리고 비가 그친 아침. 도윤의 시간을 이어갑니다.':'처음 만난 주민들부터 벽 안의 물소리까지, 도윤의 시간을 이어갑니다.');
+ if(saveAllowed&&(readStored(STORAGE_KEY)||runStarted)){
+  const act=dayIndex<7?1:dayIndex<15?2:dayIndex<20?3:dayIndex<23?4:5;
+  button(p,`이어하기 · ${act}막 ${dayIndex+1}일차`,()=>{campaignMenuOpen=false;showSavedView()}).classList.add('primary');
+ }
+ if(window.saveLoadError)para(p,'기존 저장은 보존했습니다. '+window.saveLoadError,'p','notice');
+ if(storageIssue)para(p,storageIssue,'p','notice');
+ button(p,'1막부터 새로 시작',startCampaign).classList.add('primary');
+ if(runStarted)button(p,'현재 진행 저장 파일 내보내기',exportCampaignSave);
+ para(p,'진행 저장 파일 가져오기','h2');para(p,'이 게시용 버전에서 직접 저장한 진행 파일을 불러옵니다. 현재 진행을 바꾸기 전 확인합니다.','p','muted');
+ const file=document.createElement('input');file.type='file';file.accept='.json,application/json';file.setAttribute('aria-label','캠페인 진행 저장 파일 선택');p.append(file);
+ const fileError=para(p,'','p','notice');fileError.setAttribute('role','alert');
+ file.addEventListener('change',async()=>{try{await importCampaignFile(file.files?.[0])}catch(error){fileError.textContent=error.message}finally{file.value=''}});
+ para(p,'진행은 이 브라우저에 자동 저장됩니다. 기기를 옮기거나 브라우저 데이터를 지우기 전 저장 파일을 내보내세요.','p','muted');
+}
+$('home-open').textContent='시작 화면';
+$('home-open').addEventListener('click',showCampaignHome);
+// Campaign panels and dialogue support keyboard navigation.
+bubble.tabIndex=0;bubble.setAttribute('role','button');bubble.setAttribute('aria-label','다음 대사');bubble.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();advance();saveProgress()}});
+
+$('start').addEventListener('click',renderMain);$('day-break-open').addEventListener('click',renderMain);audioToggle.addEventListener('click',toggleAudio);document.addEventListener('click',startAudio,{once:true});bubble.addEventListener('click',advance);stage.addEventListener('click',event=>{if(['main','post','after','result-intro','epilogue'].includes(view)&&!event.target.closest('button,.bubble,.history,.campaign-panel'))advance()});$('next-day').addEventListener('click',nextDay);prev.addEventListener('click',goBack);historyOpen.addEventListener('click',openHistory);$('history-close').addEventListener('click',()=>history.classList.add('hidden'));document.querySelectorAll('[data-spot]').forEach(spot=>spot.addEventListener('click',()=>toggleProject(spot.dataset.spot)));$('confirm-plan').addEventListener('click',confirmPlan);planResult.addEventListener('click',showActReview);$('epilogue-open').addEventListener('click',()=>{epiIndex=0;renderEpilogue()});$('ending-restart').addEventListener('click',()=>{if(endingMode===2)startAct2();else if(endingMode===3)startAct3();else if(endingMode===4)startAct4();else if(endingMode===5)startAct5();else if(endingMode===6)showCampaignHome()});syncAudio();
+window.applyEarlyActVisuals?.({days:days.slice(0,20),epilogue,ending:window.ACT3_ENDING});
+const earlyVisualResolve=resolve;resolve=raw=>{const scene=earlyVisualResolve(raw);return window.reviewEarlyResolvedExpression?window.reviewEarlyResolvedExpression(scene,dayIndex):scene};
+document.addEventListener('click',()=>queueMicrotask(saveProgress));window.addEventListener('pagehide',saveProgress);const resumed=loadProgress();showCampaignHome();
+console.assert([20,24].includes(days.length),'1~3막은 20일, 전체 이야기는 24일이어야 합니다.');console.assert(days.slice(0,7).filter(day=>day.choices).length===5,'1막 선택 사건은 다섯 개여야 합니다.');console.assert(days.slice(7,15).filter(day=>day.choices).length===5,'2막 선택 사건은 다섯 개여야 합니다.');console.assert(days.slice(7,15).filter(day=>!day.choices).length===3,'2막 자동 사건은 세 개여야 합니다.');console.assert(days.every(day=>!day.choices||day.choices.length===3),'선택 사건마다 선택지 세 개가 필요합니다.');console.assert(facilityImages&&Object.keys(facilityImages).length===5,'다섯 공간의 단계별 이미지가 필요합니다.');console.assert(incidentSpent()>=0&&incidentSpent()<=150,'2막 사건 비용은 0~150만 원이어야 합니다.');
 })();

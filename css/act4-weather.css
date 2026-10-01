@@ -1,0 +1,16 @@
+/* Act 4 only: weather-edited originals preserve place and upgrade state.
+   No overlay rain inside rooms; rain is drawn outside windows in the artwork. */
+.stage.act4-weather.office{--weather-art:url('../assets/act4-weather/office-rain-day.webp')}
+.stage.act4-weather.office.weather-night,.stage.act4-weather.office.weather-dusk{--weather-art:url('../assets/act4-weather/office-rain-night.webp')}
+.stage.act4-weather.exterior{--weather-art:url('../assets/act4-weather/exterior-rain-day.webp')}
+.stage.act4-weather.exterior.weather-night{--weather-art:url('../assets/act4-weather/exterior-rain-night.webp')}
+.stage.act4-weather.corridor{--weather-art:url('../assets/act4-weather/corridor-rain-day.webp')}
+.stage.act4-weather.lobby{--weather-art:url('../assets/act4-weather/lobby-rain-night.webp')}
+.stage.act4-weather.facility-c-0{--weather-art:url('../assets/act4-weather/loading-0-rain-day.webp')}
+.stage.act4-weather.facility-c-1{--weather-art:url('../assets/act4-weather/loading-1-rain-day.webp')}
+.stage.act4-weather.facility-c-2{--weather-art:url('../assets/act4-weather/loading-2-rain-day.webp')}
+.stage.act4-weather{background-image:var(--weather-art)}
+.stage.act4-weather .cutin-backdrop{background-image:var(--weather-art)}
+.stage.act4-weather .sheet-view.reflection-view{background-image:linear-gradient(180deg,rgba(9,25,35,.12),rgba(9,25,35,.68)),var(--weather-art)}
+.stage.act4-weather .ending{background-image:linear-gradient(180deg,rgba(8,24,36,.24),rgba(8,30,42,.86)),var(--weather-art)}
+.stage.act4-weather.rain-heavy:before{background:linear-gradient(180deg,rgba(16,30,42,.16),transparent 45%,rgba(9,25,35,.15))}
