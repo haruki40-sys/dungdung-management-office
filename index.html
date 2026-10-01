@@ -3,16 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>오늘도 관리사무소 · v1.4.1</title>
-<link rel="stylesheet" href="css/game.css?v=1.4.1">
+<title>오늘도 관리사무소 · v1.5.0</title>
+<link rel="stylesheet" href="css/game.css?v=1.5.0">
 <link rel="stylesheet" href="css/v1.3.1.css">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/act3-review.css?v=1.5.0">
 </head>
 <body>
 <main class="phone" id="app">
   <header class="top">
     <div class="brand"><strong>오늘도 관리사무소</strong><small id="act-name">1막 · 처음 만난 사람들</small></div><span class="badge" id="chapter">프롤로그</span>
     <div class="progress" role="progressbar" aria-label="1막 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="3"><span id="progress"></span></div>
-    <div class="tools"><button class="tool" id="prev" type="button" disabled>이전 장면</button><button class="tool" id="audio-toggle" type="button" aria-pressed="true">음악 끄기</button><button class="tool" id="history-open" type="button" disabled>지나온 대화</button></div>
+    <div class="tools"><button class="tool" id="review-home" type="button">시작 설정</button><button class="tool" id="prev" type="button" disabled>이전 장면</button><button class="tool" id="audio-toggle" type="button" aria-pressed="true">음악 끄기</button><button class="tool" id="history-open" type="button" disabled>지나온 대화</button></div>
   </header>
   <section class="stage exterior" id="stage" aria-live="polite">
     <section class="cover" id="cover"><small>ACT 1 · FIRST WEEK</small><h1>처음 만난 사람들</h1><p>라이프아파트의 새 관리소장 도윤.<br>첫 일주일이 시작됩니다.</p><div class="route"><span>주민의 말을 듣고</span><span>세 가지 방법 중 하나를 고르고</span><span>한정된 예산으로 공간을 바꿉니다</span></div><button class="button" id="start" type="button">관리사무소 문을 연다</button></section>
@@ -27,11 +29,13 @@
     <section class="sheet-view result-view hidden" id="plan-result"><article class="sheet result-sheet"><span class="type-label" id="result-step">2단계 · 관리 결과</span><h2 id="result-title">고른 곳에서 변화가 시작됐다</h2><p id="result-lead">도윤과 태식은 필요한 작업과 주민 안내까지 이어갔습니다.</p><div class="result-flow" aria-label="관리계획 실행 과정"><span>현장 확인</span><span>표식·설비 작업</span><span>주민 안내</span></div><div class="summary-list" id="summary-list"></div><p class="advance-hint">화면을 눌러 계속</p></article></section>
     <section class="sheet-view review-view hidden" id="act-review"><article class="sheet"><span class="type-label" id="review-step">3단계 · 1막 전체 회상</span><h2>도윤은 무엇을 먼저 지켜왔을까</h2><p id="review-lead">7일 동안 다섯 번의 선택을 돌아봅니다.</p><div class="style-head"><b id="review-style-title">1막 전체 관리 성향</b><span>다섯 번의 판단에서 먼저 지킨 방향입니다.</span></div><div class="style-card"><svg viewBox="0 0 150 140" role="img" aria-label="원칙 고수, 관계 중시, 실행 우선 관리 성향 삼각형"><polygon class="guide" points="75,20 18,120 132,120"></polygon><polygon class="guide" points="75,46 34,111 116,111"></polygon><polygon class="shape" id="style-shape" points="75,61 48,106 103,106"></polygon><text x="75" y="9" text-anchor="middle">원칙 고수</text><text x="75" y="29" text-anchor="middle" class="count" id="count-principle">0</text><text x="0" y="137">관계 중시</text><text x="22" y="118" text-anchor="middle" class="count" id="count-relation">0</text><text x="108" y="137">실행 우선</text><text x="128" y="118" text-anchor="middle" class="count" id="count-action">0</text></svg><p id="style-copy"></p></div><div class="summary-list" id="review-summary"></div><div class="reflection" id="review-reflection">모든 문제를 해결하진 못했다. 그래도 다음 주의 라이프아파트는 이번 주와 조금 다를 것이다.</div><div class="actions"><button class="button primary" id="epilogue-open" type="button">관리사무소로 돌아간다</button></div></article></section>
     <section class="ending hidden" id="ending"><small id="ending-kicker">ACT 2</small><h2 id="ending-title">2막 · 이름 뒤의 사정</h2><p id="ending-copy">사정을 알게 된 뒤에도 같은 기준을 똑같이 적용할 수 있을까?</p><div class="actions"><button class="button primary" id="ending-restart" type="button">2막 시작하기</button></div></section>
+    <section id="review-panel" class="review-panel hidden" aria-label="3막 시작 설정"></section>
     <section class="history hidden" id="history"><header class="history-head"><h2>지나온 대화</h2><button class="button" id="history-close" type="button">돌아가기</button></header><div class="history-list" id="history-list"></div></section>
   </section>
 </main>
 <audio id="bgm" src="assets/audio/forget_me_not_looped.ogg" loop preload="auto"></audio>
 <script src="js/act2-data.js"></script>
-<script src="js/game.js?v=1.4.1"></script>
+<script src="js/act3-data.js?v=1.5.0"></script>
+<script src="js/game.js?v=1.5.0"></script>
 </body>
 </html>
